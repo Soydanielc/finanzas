@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Finanzas del Caballero — Hollow Knight</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0d0d14;
+      --bg-card: #1a1a2e;
+      --text: #e8e0d1;
+      --gold: #c9a84c;
+      --ghost: #4a6b8a;
+      --danger: #8b3a3a;
+      --success: #c9a84c;
+      --border: rgba(201, 168, 76, 0.25);
+      --shadow-gold: 0 0 12px rgba(201, 168, 76, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(74, 107, 138, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(201, 168, 76, 0.05) 0%, transparent 40%);
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.04em;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 3rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 1.5rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      color: var(--ghost);
+      font-size: 0.95rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-gold);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Panel Resumen */
+    .resumen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .resumen-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border: 1px solid rgba(74, 107, 138, 0.3);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--ghost);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+
+    .stat-value.positivo { color: var(--success); }
+    .stat-value.negativo { color: var(--danger); }
+
+    /* Formulario */
+    .form-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .form-grid .full { grid-column: 1 / -1; }
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--ghost);
+      margin-bottom: 0.35rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      background: linear-gradient(180deg, rgba(201, 168, 76, 0.25), rgba(201, 168, 76, 0.1));
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 48px; /* thumb-friendly */
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: linear-gradient(180deg, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.2));
+      box-shadow: var(--shadow-gold);
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-danger {
+      border-color: var(--danger);
+      color: #e8b4b4;
+      background: linear-gradient(180deg, rgba(139, 58, 58, 0.3), rgba(139, 58, 58, 0.1));
+      padding: 0.5rem 0.75rem;
+      min-height: 40px;
+      width: auto;
+      font-size: 0.85rem;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(180deg, rgba(139, 58, 58, 0.5), rgba(139, 58, 58, 0.2));
+    }
+
+    /* Tabla */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem 0.5rem;
+      color: var(--ghost);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.85rem 0.5rem;
+      border-bottom: 1px solid rgba(74, 107, 138, 0.2);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: rgba(74, 107, 138, 0.08);
+    }
+
+    .tipo-ingreso { color: var(--success); }
+    .tipo-gasto { color: var(--danger); }
+
+    /* Calculadora */
+    .calc-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .calc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .tasa-info {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(74, 107, 138, 0.3);
+    }
+
+    .tasa-valor {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin: 0.3rem 0;
+    }
+
+    .tasa-fecha {
+      font-size: 0.8rem;
+      color: var(--ghost);
+    }
+
+    /* Mensajes */
+    .msg {
+      padding: 0.9rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .msg.error {
+      display: block;
+      background: rgba(139, 58, 58, 0.25);
+      border: 1px solid var(--danger);
+      color: #e8b4b4;
+    }
+
+    .msg.ok {
+      display: block;
+      background: rgba(201, 168, 76, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+
+    .msg.info {
+      display: block;
+      background: rgba(74, 107, 138, 0.2);
+      border: 1px solid var(--ghost);
+      color: var(--text);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--ghost);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--ghost);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Layout principal */
+    .main-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .full-width {
+        grid-column: 1 / -1;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--ghost);
+      font-size: 0.8rem;
+    }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--ghost);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fa-solid fa-mask"></i> Finanzas del Caballero</h1>
+      <p>Control de ingresos y gastos · Tasa oficial BCV</p>
+    </header>
+
+    <div id="global-msg" class="msg"></div>
+
+    <!-- PANEL RESUMEN -->
+    <section class="card full-width">
+      <h2 class="card-title"><i class="fa-solid fa-gem"></i> Resumen del Reino</h2>
+      <div class="resumen-grid">
+        <div class="stat">
+          <div class="stat-label">Saldo en Bs.</div>
+          <div class="stat-value" id="saldo-bs">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Saldo en USD</div>
+          <div class="stat-value" id="saldo-usd">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Estado</div>
+          <div class="stat-value" id="estado-saldo">—</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <!-- GESTOR DE MOVIMIENTOS -->
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-scroll"></i> Nuevo Movimiento</h2>
+        <form id="form-transaccion" class="form-grid">
+          <div>
+            <label for="tipo">Tipo</label>
+            <select id="tipo" required>
+              <option value="ingreso">Ingreso</option>
+              <option value="gasto">Gasto</option>
+            </select>
+          </div>
+          <div>
+            <label for="monto">Monto (Bs.)</label>
+            <input type="number" id="monto" step="0.01" min="0.01" placeholder="0.00" required />
+          </div>
+          <div class="full">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" maxlength="255" placeholder="Ej: Sueldo, comida..." required />
+          </div>
+          <div class="full">
+            <label for="categoria">Categoría (opcional)</label>
+            <select id="categoria">
+              <option value="">— Sin categoría —</option>
+              <option value="comida">Comida</option>
+              <option value="transporte">Transporte</option>
+              <option value="ocio">Ocio</option>
+              <option value="servicios">Servicios</option>
+              <option value="salud">Salud</option>
+              <option value="salario">Salario</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+          <div class="full">
+            <button type="submit" class="btn" id="btn-guardar">
+              <i class="fa-solid fa-plus"></i> Registrar
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- CALCULADORA BCV -->
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-coins"></i> Calculadora BCV</h2>
+        <div class="tasa-info" style="margin-bottom: 1.25rem;">
+          <div class="stat-label">Tasa oficial BCV</div>
+          <div class="tasa-valor" id="tasa-valor">—</div>
+          <div class="tasa-fecha" id="tasa-fecha">Cargando...</div>
+        </div>
+        <div class="calc-grid">
+          <div>
+            <label for="calc-bs">Bolívares (Bs.)</label>
+            <input type="number" id="calc-bs" step="0.01" min="0" placeholder="0.00" />
+          </div>
+          <div>
+            <label for="calc-usd">Dólares (USD)</label>
+            <input type="number" id="calc-usd" step="0.01" min="0" placeholder="0.00" />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- HISTORIAL -->
+    <section class="card full-width">
+      <h2 class="card-title"><i class="fa-solid fa-book"></i> Historial de Movimientos</h2>
+      <div id="tabla-container">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>Cargando registros...</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p><i class="fa-solid fa-bug"></i> Inspirado en Hollow Knight · Datos personales</p>
+    </footer>
+  </div>
+
+  <script>
+    // ============================================================
+    // CONFIGURACIÓN — Cambia esta URL por la de tu backend en Render
+    // ============================================================
+    const API_URL = "https://TU-APP-EN-RENDER.onrender.com";  // ← REEMPLAZA ESTO
+
+    // Estado global
+    let tasaActual = 0;
+    let fechaTasa = "";
+
+    // Utilidades
+    const $ = (sel) => document.querySelector(sel);
+    const fmtBs = (n) => Number(n).toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtUsd = (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function mostrarMsg(texto, tipo = "info") {
+      const el = $("#global-msg");
+      el.textContent = texto;
+      el.className = `msg ${tipo}`;
+      if (tipo === "ok") {
+        setTimeout(() => { el.className = "msg"; el.textContent = ""; }, 3500);
+      }
+    }
+
+    function ocultarMsg() {
+      $("#global-msg").className = "msg";
+      $("#global-msg").textContent = "";
+    }
+
+    // Fetch con manejo de sleep de Render
+    async function apiFetch(path, options = {}) {
+      const url = `${API_URL}${path}`;
+      try {
+        const res = await fetch(url, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {}),
+          },
+        });
+
+        if (!res.ok) {
+          let detail = "Error desconocido";
+          try {
+            const err = await res.json();
+            detail = err.detail || JSON.stringify(err);
+          } catch (_) {}
+          throw new Error(detail);
+        }
+        return await res.json();
+      } catch (err) {
+        if (err.name === "TypeError" || err.message.includes("Failed to fetch")) {
+          throw new Error(
+            "El servidor está dormido o no responde (Render gratuito). Espera ~30-60 s y recarga."
+          );
+        }
+        throw err;
+      }
+    }
+
+    // ---- Cargar tasa BCV ----
+    async function cargarTasa() {
+      try {
+        const data = await apiFetch("/tasa-bcv");
+        tasaActual = data.tasa;
+        fechaTasa = data.fecha;
+        $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
+        $("#tasa-fecha").textContent = `Actualizada: ${fechaTasa} · ${data.fuente || "BCV"}`;
+      } catch (e) {
+        $("#tasa-valor").textContent = "—";
+        $("#tasa-fecha").textContent = e.message;
+        tasaActual = 0;
+      }
+    }
+
+    // ---- Balance ----
+    async function cargarBalance() {
+      try {
+        const data = await apiFetch("/balance");
+        const saldoBs = data.saldo_bs;
+        const saldoUsd = tasaActual > 0 ? saldoBs / tasaActual : 0;
+
+        const elBs = $("#saldo-bs");
+        const elUsd = $("#saldo-usd");
+        const elEst = $("#estado-saldo");
+
+        elBs.textContent = `${fmtBs(saldoBs)} Bs.`;
+        elUsd.textContent = tasaActual > 0 ? `$ ${fmtUsd(saldoUsd)}` : "—";
+
+        elBs.className = "stat-value " + (saldoBs >= 0 ? "positivo" : "negativo");
+        elUsd.className = "stat-value " + (saldoBs >= 0 ? "positivo" : "negativo");
+
+        if (saldoBs > 0) {
+          elEst.textContent = "Ahorro";
+          elEst.className = "stat-value positivo";
+        } else if (saldoBs < 0) {
+          elEst.textContent = "Deuda";
+          elEst.className = "stat-value negativo";
+        } else {
+          elEst.textContent = "Equilibrio";
+          elEst.className = "stat-value";
+        }
+      } catch (e) {
+        $("#saldo-bs").textContent = "Error";
+        $("#saldo-usd").textContent = "—";
+        $("#estado-saldo").textContent = "—";
+        mostrarMsg(e.message, "error");
+      }
+    }
+
+    // ---- Historial ----
+    async function cargarHistorial() {
+      const cont = $("#tabla-container");
+      try {
+        const lista = await apiFetch("/transacciones");
+
+        if (!lista.length) {
+          cont.innerHTML = `<div class="empty"><i class="fa-solid fa-ghost" style="font-size:2rem;opacity:0.5"></i><p>No hay movimientos aún.<br>Registra tu primer ingreso o gasto.</p></div>`;
+          return;
+        }
+
+        let html = `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Monto</th>
+                  <th>Descripción</th>
+                  <th>Cat.</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        for (const t of lista) {
+          const fecha = new Date(t.fecha_creacion).toLocaleDateString("es-VE", {
+            day: "2-digit", month: "2-digit", year: "2-digit",
+          });
+          const clase = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
+          const signo = t.tipo === "ingreso" ? "+" : "−";
+
+          html += `
+            <tr>
+              <td>${fecha}</td>
+              <td class="${clase}">${t.tipo}</td>
+              <td class="${clase}">${signo}${fmtBs(t.monto_bs)}</td>
+              <td>${escapeHtml(t.descripcion)}</td>
+              <td>${t.categoria || "—"}</td>
+              <td>
+                <button class="btn btn-danger" onclick="eliminar('${t.id}')" title="Eliminar">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }
+
+        html += `</tbody></table></div>`;
+        cont.innerHTML = html;
+      } catch (e) {
+        cont.innerHTML = `<div class="empty"><p style="color:var(--danger)">${escapeHtml(e.message)}</p></div>`;
+        mostrarMsg(e.message, "error");
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- Eliminar ----
+    async function eliminar(id) {
+      if (!confirm("¿Eliminar este movimiento?")) return;
+      try {
+        await apiFetch(`/transacciones/${id}`, { method: "DELETE" });
+        mostrarMsg("Movimiento eliminado", "ok");
+        await Promise.all([cargarHistorial(), cargarBalance()]);
+      } catch (e) {
+        mostrarMsg(e.message, "error");
+      }
+    }
+
+    // ---- Formulario ----
+    $("#form-transaccion").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#btn-guardar");
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+
+      const payload = {
+        tipo: $("#tipo").value,
+        monto_bs: parseFloat($("#monto").value),
+        descripcion: $("#descripcion").value.trim(),
+        categoria: $("#categoria").value || null,
+      };
+
+      try {
+        await apiFetch("/transacciones", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        mostrarMsg("Movimiento registrado", "ok");
+        e.target.reset();
+        await Promise.all([cargarHistorial(), cargarBalance()]);
+      } catch (err) {
+        mostrarMsg(err.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-plus"></i> Registrar';
+      }
+    });
+
+    // ---- Calculadora bidireccional ----
+    $("#calc-bs").addEventListener("input", () => {
+      if (tasaActual <= 0) return;
+      const bs = parseFloat($("#calc-bs").value) || 0;
+      $("#calc-usd").value = bs > 0 ? (bs / tasaActual).toFixed(2) : "";
+    });
+
+    $("#calc-usd").addEventListener("input", () => {
+      if (tasaActual <= 0) return;
+      const usd = parseFloat($("#calc-usd").value) || 0;
+      $("#calc-bs").value = usd > 0 ? (usd * tasaActual).toFixed(2) : "";
+    });
+
+    // ---- Inicialización ----
+    async function init() {
+      mostrarMsg("Conectando con el servidor... (si está dormido puede tardar ~40 s)", "info");
+      try {
+        await cargarTasa();
+        await Promise.all([cargarBalance(), cargarHistorial()]);
+        ocultarMsg();
+      } catch (e) {
+        mostrarMsg(e.message, "error");
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
