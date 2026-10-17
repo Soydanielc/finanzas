@@ -1,731 +1,765 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Finanzas del Caballero — Hollow Knight</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <style>
-    :root {
-      --bg: #0d0d14;
-      --bg-card: #1a1a2e;
-      --text: #e8e0d1;
-      --gold: #c9a84c;
-      --ghost: #4a6b8a;
-      --danger: #8b3a3a;
-      --success: #c9a84c;
-      --border: rgba(201, 168, 76, 0.25);
-      --shadow-gold: 0 0 12px rgba(201, 168, 76, 0.35);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Finanzas del Caballero — Hallownest Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #0d0d14;
+        --bg-card: #1a1a2e;
+        --text: #e8e0d1;
+        --gold: #c9a84c;
+        --ghost: #4a6b8a;
+        --danger: #8b3a3a;
+        --success: #3a8b5c;
+        --usdt: #26a17b;
+        --border: rgba(201, 168, 76, 0.25);
+        --shadow-gold: 0 0 12px rgba(201, 168, 76, 0.35);
+      }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-      background-image:
-        radial-gradient(ellipse at 20% 0%, rgba(74, 107, 138, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(201, 168, 76, 0.05) 0%, transparent 40%);
-    }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.5;
+        background-image:
+          radial-gradient(
+            ellipse at 20% 0%,
+            rgba(74, 107, 138, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 100%,
+            rgba(201, 168, 76, 0.05) 0%,
+            transparent 40%
+          );
+      }
 
-    h1, h2, h3 {
-      font-family: 'Cinzel', serif;
-      letter-spacing: 0.04em;
-    }
+      h1,
+      h2,
+      h3 {
+        font-family: "Cinzel", serif;
+        letter-spacing: 0.04em;
+      }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.25rem 1rem 3rem;
-    }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem 1rem 3rem;
+      }
 
-    /* Header */
-    header {
-      text-align: center;
-      padding: 1.5rem 0 2rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-      position: relative;
-    }
+      header {
+        text-align: center;
+        padding: 1.5rem 0 2rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 2rem;
+        position: relative;
+      }
 
-    header::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
+      header::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+      }
 
-    header h1 {
-      font-size: clamp(1.6rem, 5vw, 2.4rem);
-      color: var(--gold);
-      text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
-      margin-bottom: 0.4rem;
-    }
+      header h1 {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        color: var(--gold);
+        text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+        margin-bottom: 0.4rem;
+      }
 
-    header p {
-      color: var(--ghost);
-      font-size: 0.95rem;
-    }
+      header p {
+        color: var(--ghost);
+        font-size: 0.95rem;
+      }
 
-    /* Cards */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
-      box-shadow: var(--shadow-gold);
-      margin-bottom: 1.5rem;
-      position: relative;
-      overflow: hidden;
-    }
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.25rem;
+        box-shadow: var(--shadow-gold);
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+      }
 
-    .card-title {
-      font-size: 1.15rem;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+      .card-title {
+        font-size: 1.15rem;
+        color: var(--gold);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    /* Panel Resumen */
-    .resumen-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
+      /* Grid de Balance Geral */
       .resumen-grid {
-        grid-template-columns: repeat(3, 1fr);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
-    }
 
-    .stat {
-      text-align: center;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 8px;
-      border: 1px solid rgba(74, 107, 138, 0.3);
-    }
+      @media (min-width: 640px) {
+        .resumen-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
 
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--ghost);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.35rem;
-    }
+      .stat {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+        border: 1px solid rgba(74, 107, 138, 0.3);
+      }
 
-    .stat-value {
-      font-family: 'Cinzel', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-    }
+      .stat-label {
+        font-size: 0.78rem;
+        color: var(--ghost);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.35rem;
+      }
 
-    .stat-value.positivo { color: var(--success); }
-    .stat-value.negativo { color: var(--danger); }
+      .stat-value {
+        font-family: "Cinzel", serif;
+        font-size: 1.35rem;
+        font-weight: 600;
+      }
+      .stat-value.positivo {
+        color: var(--gold);
+      }
+      .stat-value.usdt {
+        color: var(--usdt);
+      }
+      .stat-value.negativo {
+        color: #e8b4b4;
+      }
 
-    /* Formulario */
-    .form-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
+      /* Formulario */
       .form-grid {
-        grid-template-columns: 1fr 1fr;
+        display: grid;
+        gap: 1rem;
       }
-      .form-grid .full { grid-column: 1 / -1; }
-    }
 
-    label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--ghost);
-      margin-bottom: 0.35rem;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem 0.9rem;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
-    }
-
-    /* Botones */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.85rem 1.4rem;
-      font-family: 'Cinzel', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: 1px solid var(--gold);
-      border-radius: 6px;
-      background: linear-gradient(180deg, rgba(201, 168, 76, 0.25), rgba(201, 168, 76, 0.1));
-      color: var(--gold);
-      cursor: pointer;
-      transition: all 0.2s;
-      min-height: 48px; /* thumb-friendly */
-      width: 100%;
-    }
-
-    .btn:hover {
-      background: linear-gradient(180deg, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.2));
-      box-shadow: var(--shadow-gold);
-    }
-
-    .btn:active { transform: scale(0.98); }
-
-    .btn-danger {
-      border-color: var(--danger);
-      color: #e8b4b4;
-      background: linear-gradient(180deg, rgba(139, 58, 58, 0.3), rgba(139, 58, 58, 0.1));
-      padding: 0.5rem 0.75rem;
-      min-height: 40px;
-      width: auto;
-      font-size: 0.85rem;
-    }
-
-    .btn-danger:hover {
-      background: linear-gradient(180deg, rgba(139, 58, 58, 0.5), rgba(139, 58, 58, 0.2));
-    }
-
-    /* Tabla */
-    .table-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    th {
-      text-align: left;
-      padding: 0.75rem 0.5rem;
-      color: var(--ghost);
-      font-weight: 500;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 0.85rem 0.5rem;
-      border-bottom: 1px solid rgba(74, 107, 138, 0.2);
-      vertical-align: middle;
-    }
-
-    tr:hover td {
-      background: rgba(74, 107, 138, 0.08);
-    }
-
-    .tipo-ingreso { color: var(--success); }
-    .tipo-gasto { color: var(--danger); }
-
-    /* Calculadora */
-    .calc-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
-      .calc-grid {
-        grid-template-columns: 1fr 1fr;
+      @media (min-width: 640px) {
+        .form-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .form-grid .full {
+          grid-column: 1 / -1;
+        }
       }
-    }
 
-    .tasa-info {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-      border: 1px solid rgba(74, 107, 138, 0.3);
-    }
+      label {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--ghost);
+        margin-bottom: 0.35rem;
+      }
 
-    .tasa-valor {
-      font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
-      color: var(--gold);
-      margin: 0.3rem 0;
-    }
+      input,
+      select {
+        width: 100%;
+        padding: 0.75rem 0.9rem;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 1rem;
+      }
 
-    .tasa-fecha {
-      font-size: 0.8rem;
-      color: var(--ghost);
-    }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+      }
 
-    /* Mensajes */
-    .msg {
-      padding: 0.9rem 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      display: none;
-    }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.85rem 1.4rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border: 1px solid var(--gold);
+        border-radius: 6px;
+        background: linear-gradient(
+          180deg,
+          rgba(201, 168, 76, 0.25),
+          rgba(201, 168, 76, 0.1)
+        );
+        color: var(--gold);
+        cursor: pointer;
+        width: 100%;
+        min-height: 48px;
+      }
 
-    .msg.error {
-      display: block;
-      background: rgba(139, 58, 58, 0.25);
-      border: 1px solid var(--danger);
-      color: #e8b4b4;
-    }
+      .btn:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(201, 168, 76, 0.4),
+          rgba(201, 168, 76, 0.2)
+        );
+      }
 
-    .msg.ok {
-      display: block;
-      background: rgba(201, 168, 76, 0.15);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-    }
+      .btn-sm {
+        padding: 0.4rem 0.75rem;
+        min-height: 36px;
+        font-size: 0.8rem;
+        width: auto;
+      }
+      .btn-danger {
+        border-color: var(--danger);
+        color: #e8b4b4;
+        background: rgba(139, 58, 58, 0.2);
+      }
 
-    .msg.info {
-      display: block;
-      background: rgba(74, 107, 138, 0.2);
-      border: 1px solid var(--ghost);
-      color: var(--text);
-    }
+      /* Tablas */
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th {
+        text-align: left;
+        padding: 0.75rem 0.5rem;
+        color: var(--ghost);
+        border-bottom: 1px solid var(--border);
+      }
+      td {
+        padding: 0.85rem 0.5rem;
+        border-bottom: 1px solid rgba(74, 107, 138, 0.2);
+      }
 
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: var(--ghost);
-    }
+      .tipo-ingreso {
+        color: var(--gold);
+      }
+      .tipo-gasto {
+        color: #e8b4b4;
+      }
 
-    .spinner {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      border: 3px solid var(--ghost);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 0.5rem;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Layout principal */
-    .main-grid {
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    @media (min-width: 900px) {
+      /* Layout Principal */
       .main-grid {
-        grid-template-columns: 1fr 1fr;
+        display: grid;
+        gap: 1.5rem;
       }
-      .full-width {
-        grid-column: 1 / -1;
+      @media (min-width: 900px) {
+        .main-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .full-width {
+          grid-column: 1 / -1;
+        }
       }
-    }
 
-    footer {
-      text-align: center;
-      margin-top: 2.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      color: var(--ghost);
-      font-size: 0.8rem;
-    }
+      .msg {
+        padding: 0.9rem 1rem;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        display: none;
+      }
+      .msg.error {
+        display: block;
+        background: rgba(139, 58, 58, 0.25);
+        border: 1px solid var(--danger);
+        color: #e8b4b4;
+      }
+      .msg.ok {
+        display: block;
+        background: rgba(201, 168, 76, 0.15);
+        border: 1px solid var(--gold);
+        color: var(--gold);
+      }
+      .msg.info {
+        display: block;
+        background: rgba(74, 107, 138, 0.2);
+        border: 1px solid var(--ghost);
+        color: var(--text);
+      }
 
-    /* Empty state */
-    .empty {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: var(--ghost);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1><i class="fa-solid fa-mask"></i> Finanzas del Caballero</h1>
-      <p>Control de ingresos y gastos · Tasa oficial BCV</p>
-    </header>
+      .tasa-card {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+      .tasa-val {
+        font-family: "Cinzel", serif;
+        font-size: 1.8rem;
+        color: var(--gold);
+      }
 
-    <div id="global-msg" class="msg"></div>
+      footer {
+        text-align: center;
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        color: var(--ghost);
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <i class="fa-solid fa-shield-halved"></i> Finanzas del Caballero
+        </h1>
+        <p>Gestión Multimoneda · Cashea & Binance P2P · Hallownest Edition</p>
+      </header>
 
-    <!-- PANEL RESUMEN -->
-    <section class="card full-width">
-      <h2 class="card-title"><i class="fa-solid fa-gem"></i> Resumen del Reino</h2>
-      <div class="resumen-grid">
-        <div class="stat">
-          <div class="stat-label">Saldo en Bs.</div>
-          <div class="stat-value" id="saldo-bs">—</div>
+      <div id="global-msg" class="msg"></div>
+
+      <!-- BALANCE PRINCIPAL -->
+      <section class="card full-width">
+        <h2 class="card-title">
+          <i class="fa-solid fa-gem"></i> Gros de Geo (Saldos & Deudas)
+        </h2>
+        <div class="resumen-grid">
+          <div class="stat">
+            <div class="stat-label">Saldo en Bancos (Bs.)</div>
+            <div class="stat-value positivo" id="saldo-bs">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Billetera Binance (USDT)</div>
+            <div class="stat-value usdt" id="saldo-usdt">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Deudas Pendientes (Cashea)</div>
+            <div class="stat-value negativo" id="deudas-usd">—</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-label">Saldo en USD</div>
-          <div class="stat-value" id="saldo-usd">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Estado</div>
-          <div class="stat-value" id="estado-saldo">—</div>
-        </div>
+      </section>
+
+      <div class="main-grid">
+        <!-- REGISTRO DE MOVIMIENTOS -->
+        <section class="card">
+          <h2 class="card-title">
+            <i class="fa-solid fa-scroll"></i> Registrar Movimiento
+          </h2>
+          <form id="form-transaccion" class="form-grid">
+            <div>
+              <label for="tipo">Tipo</label>
+              <select id="tipo" required>
+                <option value="ingreso">Ingreso (+)</option>
+                <option value="gasto">Gasto (-)</option>
+              </select>
+            </div>
+            <div>
+              <label for="moneda">Moneda</label>
+              <select id="moneda" required>
+                <option value="BS">Bolívares (Bs.)</option>
+                <option value="USDT">Binance (USDT)</option>
+                <option value="USD">Dólares ($)</option>
+              </select>
+            </div>
+            <div>
+              <label for="monto_orig">Monto</label>
+              <input
+                type="number"
+                id="monto_orig"
+                step="0.01"
+                min="0.01"
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <label for="tasa_cambio">Tasa de Cambio (Bs/$)</label>
+              <input
+                type="number"
+                id="tasa_cambio"
+                step="0.01"
+                placeholder="Usar Tasa BCV"
+              />
+            </div>
+            <div class="full">
+              <label for="descripcion">Descripción</label>
+              <input
+                type="text"
+                id="descripcion"
+                placeholder="Ej: Sueldo semanal, pasajes, comida..."
+                required
+              />
+            </div>
+            <div class="full">
+              <label for="categoria">Categoría</label>
+              <select id="categoria">
+                <option value="salario">Salario / Ingresos</option>
+                <option value="casa">Aporte Casa</option>
+                <option value="transporte">Pasaje / Transporte</option>
+                <option value="comida">Comida / Mercado</option>
+                <option value="cashea">Pago Cashea</option>
+                <option value="ocio">Ocio / Caprichos</option>
+                <option value="otros">Otros</option>
+              </select>
+            </div>
+            <div class="full">
+              <button type="submit" class="btn" id="btn-guardar">
+                <i class="fa-solid fa-plus"></i> Registrar
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- DEUDAS Y CASHEA -->
+        <section class="card">
+          <h2 class="card-title">
+            <i class="fa-solid fa-skull"></i> Espinas del Reino (Cashea /
+            Créditos)
+          </h2>
+          <form
+            id="form-deuda"
+            style="margin-bottom: 1.25rem"
+            class="form-grid"
+          >
+            <div>
+              <label for="d-acreedor">Acreedor / Concepto</label>
+              <input
+                type="text"
+                id="d-acreedor"
+                placeholder="Ej: Cashea Comida"
+                required
+              />
+            </div>
+            <div>
+              <label for="d-monto">Monto Total ($)</label>
+              <input
+                type="number"
+                id="d-monto"
+                step="0.01"
+                placeholder="Ej: 40.00"
+                required
+              />
+            </div>
+            <div class="full">
+              <label for="d-fecha">Fecha Límite</label>
+              <input type="date" id="d-fecha" required />
+            </div>
+            <div class="full">
+              <button type="submit" class="btn">
+                <i class="fa-solid fa-file-invoice-dollar"></i> Agregar Deuda
+              </button>
+            </div>
+          </form>
+
+          <div id="lista-deudas">
+            <p style="color: var(--ghost); text-align: center">
+              Cargando deudas...
+            </p>
+          </div>
+        </section>
       </div>
-    </section>
 
-    <div class="main-grid">
-      <!-- GESTOR DE MOVIMIENTOS -->
-      <section class="card">
-        <h2 class="card-title"><i class="fa-solid fa-scroll"></i> Nuevo Movimiento</h2>
-        <form id="form-transaccion" class="form-grid">
-          <div>
-            <label for="tipo">Tipo</label>
-            <select id="tipo" required>
-              <option value="ingreso">Ingreso</option>
-              <option value="gasto">Gasto</option>
-            </select>
+      <!-- CALCULADORA BCV & HISTORIAL -->
+      <div class="main-grid">
+        <section class="card">
+          <h2 class="card-title">
+            <i class="fa-solid fa-coins"></i> Tasa Oficial BCV
+          </h2>
+          <div class="tasa-card">
+            <div class="stat-label">Tasa Oficial</div>
+            <div class="tasa-val" id="tasa-valor">—</div>
+            <div style="font-size: 0.8rem; color: var(--ghost)" id="tasa-fecha">
+              Cargando...
+            </div>
           </div>
-          <div>
-            <label for="monto">Monto (Bs.)</label>
-            <input type="number" id="monto" step="0.01" min="0.01" placeholder="0.00" required />
-          </div>
-          <div class="full">
-            <label for="descripcion">Descripción</label>
-            <input type="text" id="descripcion" maxlength="255" placeholder="Ej: Sueldo, comida..." required />
-          </div>
-          <div class="full">
-            <label for="categoria">Categoría (opcional)</label>
-            <select id="categoria">
-              <option value="">— Sin categoría —</option>
-              <option value="comida">Comida</option>
-              <option value="transporte">Transporte</option>
-              <option value="ocio">Ocio</option>
-              <option value="servicios">Servicios</option>
-              <option value="salud">Salud</option>
-              <option value="salario">Salario</option>
-              <option value="otros">Otros</option>
-            </select>
-          </div>
-          <div class="full">
-            <button type="submit" class="btn" id="btn-guardar">
-              <i class="fa-solid fa-plus"></i> Registrar
-            </button>
-          </div>
-        </form>
-      </section>
+        </section>
 
-      <!-- CALCULADORA BCV -->
-      <section class="card">
-        <h2 class="card-title"><i class="fa-solid fa-coins"></i> Calculadora BCV</h2>
-        <div class="tasa-info" style="margin-bottom: 1.25rem;">
-          <div class="stat-label">Tasa oficial BCV</div>
-          <div class="tasa-valor" id="tasa-valor">—</div>
-          <div class="tasa-fecha" id="tasa-fecha">Cargando...</div>
-        </div>
-        <div class="calc-grid">
-          <div>
-            <label for="calc-bs">Bolívares (Bs.)</label>
-            <input type="number" id="calc-bs" step="0.01" min="0" placeholder="0.00" />
+        <section class="card full-width">
+          <h2 class="card-title">
+            <i class="fa-solid fa-book"></i> Historial de Movimientos
+          </h2>
+          <div id="tabla-container">
+            <p style="color: var(--ghost); text-align: center">
+              Cargando historial...
+            </p>
           </div>
-          <div>
-            <label for="calc-usd">Dólares (USD)</label>
-            <input type="number" id="calc-usd" step="0.01" min="0" placeholder="0.00" />
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
+
+      <footer>
+        <p>
+          <i class="fa-solid fa-bug"></i> Finanzas del Caballero · Estética
+          Hollow Knight
+        </p>
+      </footer>
     </div>
 
-    <!-- HISTORIAL -->
-    <section class="card full-width">
-      <h2 class="card-title"><i class="fa-solid fa-book"></i> Historial de Movimientos</h2>
-      <div id="tabla-container">
-        <div class="loading">
-          <div class="spinner"></div>
-          <div>Cargando registros...</div>
-        </div>
-      </div>
-    </section>
+    <script>
+      const API_URL = "https://finanzas-qurk.onrender.com"; // Ajusta tu URL de Render
 
-    <footer>
-      <p><i class="fa-solid fa-bug"></i> Inspirado en Hollow Knight · Datos personales</p>
-    </footer>
-  </div>
-
-  <script>
-    // ============================================================
-    // CONFIGURACIÓN — Cambia esta URL por la de tu backend en Render
-    // ============================================================
-    const API_URL = "https://finanzas-qurk.onrender.com";  // ← REEMPLAZA ESTO
-
-    // Estado global
-    let tasaActual = 0;
-    let fechaTasa = "";
-
-    // Utilidades
-    const $ = (sel) => document.querySelector(sel);
-    const fmtBs = (n) => Number(n).toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const fmtUsd = (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    function mostrarMsg(texto, tipo = "info") {
-      const el = $("#global-msg");
-      el.textContent = texto;
-      el.className = `msg ${tipo}`;
-      if (tipo === "ok") {
-        setTimeout(() => { el.className = "msg"; el.textContent = ""; }, 3500);
-      }
-    }
-
-    function ocultarMsg() {
-      $("#global-msg").className = "msg";
-      $("#global-msg").textContent = "";
-    }
-
-    // Fetch con manejo de sleep de Render
-    async function apiFetch(path, options = {}) {
-      const url = `${API_URL}${path}`;
-      try {
-        const res = await fetch(url, {
-          ...options,
-          headers: {
-            "Content-Type": "application/json",
-            ...(options.headers || {}),
-          },
+      let tasaActual = 0;
+      const $ = (s) => document.querySelector(s);
+      const fmtBs = (n) =>
+        Number(n).toLocaleString("es-VE", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      const fmtUsd = (n) =>
+        Number(n).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
         });
 
-        if (!res.ok) {
-          let detail = "Error desconocido";
-          try {
-            const err = await res.json();
-            detail = err.detail || JSON.stringify(err);
-          } catch (_) {}
-          throw new Error(detail);
-        }
-        return await res.json();
-      } catch (err) {
-        if (err.name === "TypeError" || err.message.includes("Failed to fetch")) {
+      function msg(texto, tipo = "info") {
+        const el = $("#global-msg");
+        el.textContent = texto;
+        el.className = `msg ${tipo}`;
+        if (tipo === "ok")
+          setTimeout(() => {
+            el.className = "msg";
+            el.textContent = "";
+          }, 3500);
+      }
+
+      async function api(path, opts = {}) {
+        try {
+          const res = await fetch(`${API_URL}${path}`, {
+            ...opts,
+            headers: {
+              "Content-Type": "application/json",
+              ...(opts.headers || {}),
+            },
+          });
+          if (!res.ok) throw new Error("Error en la solicitud");
+          return await res.json();
+        } catch (e) {
           throw new Error(
-            "El servidor está dormido o no responde (Render gratuito). Espera ~30-60 s y recarga."
+            "Servidor no responde o está despertando de Render. Intenta en unos segundos.",
           );
         }
-        throw err;
       }
-    }
 
-    // ---- Cargar tasa BCV ----
-    async function cargarTasa() {
-      try {
-        const data = await apiFetch("/tasa-bcv");
-        tasaActual = data.tasa;
-        fechaTasa = data.fecha;
-        $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
-        $("#tasa-fecha").textContent = `Actualizada: ${fechaTasa} · ${data.fuente || "BCV"}`;
-      } catch (e) {
-        $("#tasa-valor").textContent = "—";
-        $("#tasa-fecha").textContent = e.message;
-        tasaActual = 0;
-      }
-    }
-
-    // ---- Balance ----
-    async function cargarBalance() {
-      try {
-        const data = await apiFetch("/balance");
-        const saldoBs = data.saldo_bs;
-        const saldoUsd = tasaActual > 0 ? saldoBs / tasaActual : 0;
-
-        const elBs = $("#saldo-bs");
-        const elUsd = $("#saldo-usd");
-        const elEst = $("#estado-saldo");
-
-        elBs.textContent = `${fmtBs(saldoBs)} Bs.`;
-        elUsd.textContent = tasaActual > 0 ? `$ ${fmtUsd(saldoUsd)}` : "—";
-
-        elBs.className = "stat-value " + (saldoBs >= 0 ? "positivo" : "negativo");
-        elUsd.className = "stat-value " + (saldoBs >= 0 ? "positivo" : "negativo");
-
-        if (saldoBs > 0) {
-          elEst.textContent = "Ahorro";
-          elEst.className = "stat-value positivo";
-        } else if (saldoBs < 0) {
-          elEst.textContent = "Deuda";
-          elEst.className = "stat-value negativo";
-        } else {
-          elEst.textContent = "Equilibrio";
-          elEst.className = "stat-value";
+      async function cargarTasa() {
+        try {
+          const d = await api("/tasa-bcv");
+          tasaActual = d.tasa;
+          $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
+          $("#tasa-fecha").textContent = `Actualizada: ${d.fecha}`;
+          $("#tasa_cambio").placeholder = tasaActual.toString();
+        } catch (e) {
+          $("#tasa-valor").textContent = "—";
         }
-      } catch (e) {
-        $("#saldo-bs").textContent = "Error";
-        $("#saldo-usd").textContent = "—";
-        $("#estado-saldo").textContent = "—";
-        mostrarMsg(e.message, "error");
       }
-    }
 
-    // ---- Historial ----
-    async function cargarHistorial() {
-      const cont = $("#tabla-container");
-      try {
-        const lista = await apiFetch("/transacciones");
-
-        if (!lista.length) {
-          cont.innerHTML = `<div class="empty"><i class="fa-solid fa-ghost" style="font-size:2rem;opacity:0.5"></i><p>No hay movimientos aún.<br>Registra tu primer ingreso o gasto.</p></div>`;
-          return;
+      async function cargarBalance() {
+        try {
+          const b = await api("/balance");
+          $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
+          $("#saldo-usdt").textContent =
+            `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
+          $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
+        } catch (e) {
+          msg(e.message, "error");
         }
+      }
 
-        let html = `
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Tipo</th>
-                  <th>Monto</th>
-                  <th>Descripción</th>
-                  <th>Cat.</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
+      async function cargarDeudas() {
+        const cont = $("#lista-deudas");
+        try {
+          const deudas = await api("/deudas");
+          if (!deudas.length) {
+            cont.innerHTML = `<p style="color:var(--ghost); text-align:center;">¡Sin deudas pendientes en el Reino!</p>`;
+            return;
+          }
 
-        for (const t of lista) {
-          const fecha = new Date(t.fecha_creacion).toLocaleDateString("es-VE", {
-            day: "2-digit", month: "2-digit", year: "2-digit",
-          });
-          const clase = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
-          const signo = t.tipo === "ingreso" ? "+" : "−";
-
-          html += `
+          let html =
+            '<div class="table-wrap"><table><thead><tr><th>Acreedor</th><th>Monto</th><th>Pagado</th><th>Límite</th><th>Acción</th></tr></thead><tbody>';
+          for (const d of deudas) {
+            const rest = d.monto_total_usd - d.monto_pagado_usd;
+            html += `
             <tr>
-              <td>${fecha}</td>
-              <td class="${clase}">${t.tipo}</td>
-              <td class="${clase}">${signo}${fmtBs(t.monto_bs)}</td>
-              <td>${escapeHtml(t.descripcion)}</td>
-              <td>${t.categoria || "—"}</td>
+              <td>${d.acreedor}</td>
+              <td>$${fmtUsd(d.monto_total_usd)}</td>
+              <td>$${fmtUsd(d.monto_pagado_usd)}</td>
+              <td>${d.fecha_limite}</td>
               <td>
-                <button class="btn btn-danger" onclick="eliminar('${t.id}')" title="Eliminar">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+                ${!d.completado ? `<button class="btn btn-sm" onclick="abonar('${d.id}')">Abonar</button>` : '<span style="color:var(--success)">Pagado</span>'}
               </td>
             </tr>
           `;
+          }
+          html += "</tbody></table></div>";
+          cont.innerHTML = html;
+        } catch (e) {
+          cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`;
         }
-
-        html += `</tbody></table></div>`;
-        cont.innerHTML = html;
-      } catch (e) {
-        cont.innerHTML = `<div class="empty"><p style="color:var(--danger)">${escapeHtml(e.message)}</p></div>`;
-        mostrarMsg(e.message, "error");
       }
-    }
 
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // ---- Eliminar ----
-    async function eliminar(id) {
-      if (!confirm("¿Eliminar este movimiento?")) return;
-      try {
-        await apiFetch(`/transacciones/${id}`, { method: "DELETE" });
-        mostrarMsg("Movimiento eliminado", "ok");
-        await Promise.all([cargarHistorial(), cargarBalance()]);
-      } catch (e) {
-        mostrarMsg(e.message, "error");
+      async function abonar(id) {
+        const m = prompt("¿Cuánto deseas abonar en USD ($)?");
+        if (!m || isNaN(m)) return;
+        try {
+          await api(`/deudas/${id}/abonar`, {
+            method: "POST",
+            body: JSON.stringify({ monto_usd: parseFloat(m) }),
+          });
+          msg("Abono registrado", "ok");
+          cargarDeudas();
+          cargarBalance();
+        } catch (e) {
+          msg(e.message, "error");
+        }
       }
-    }
 
-    // ---- Formulario ----
-    $("#form-transaccion").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = $("#btn-guardar");
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+      async function cargarHistorial() {
+        const cont = $("#tabla-container");
+        try {
+          const lista = await api("/transacciones");
+          if (!lista.length) {
+            cont.innerHTML =
+              '<p style="color:var(--ghost); text-align:center;">Sin movimientos registrados.</p>';
+            return;
+          }
 
-      const payload = {
-        tipo: $("#tipo").value,
-        monto_bs: parseFloat($("#monto").value),
-        descripcion: $("#descripcion").value.trim(),
-        categoria: $("#categoria").value || null,
-      };
-
-      try {
-        await apiFetch("/transacciones", {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
-        mostrarMsg("Movimiento registrado", "ok");
-        e.target.reset();
-        await Promise.all([cargarHistorial(), cargarBalance()]);
-      } catch (err) {
-        mostrarMsg(err.message, "error");
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-plus"></i> Registrar';
+          let html =
+            '<div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Monto Orig.</th><th>Monto (Bs.)</th><th>Descripción</th><th></th></tr></thead><tbody>';
+          for (const t of lista) {
+            const cl = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
+            html += `
+            <tr>
+              <td>${new Date(t.fecha_creacion).toLocaleDateString()}</td>
+              <td class="${cl}">${t.tipo}</td>
+              <td>${t.monto_original} ${t.moneda}</td>
+              <td class="${cl}">${fmtBs(t.monto_bs)} Bs.</td>
+              <td>${t.descripcion}</td>
+              <td><button class="btn btn-sm btn-danger" onclick="eliminar('${t.id}')"><i class="fa-solid fa-trash"></i></button></td>
+            </tr>
+          `;
+          }
+          html += "</tbody></table></div>";
+          cont.innerHTML = html;
+        } catch (e) {
+          cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`;
+        }
       }
-    });
 
-    // ---- Calculadora bidireccional ----
-    $("#calc-bs").addEventListener("input", () => {
-      if (tasaActual <= 0) return;
-      const bs = parseFloat($("#calc-bs").value) || 0;
-      $("#calc-usd").value = bs > 0 ? (bs / tasaActual).toFixed(2) : "";
-    });
+      async function eliminar(id) {
+        if (!confirm("¿Eliminar este movimiento?")) return;
+        try {
+          await api(`/transacciones/${id}`, { method: "DELETE" });
+          msg("Eliminado con éxito", "ok");
+          cargarHistorial();
+          cargarBalance();
+        } catch (e) {
+          msg(e.message, "error");
+        }
+      }
 
-    $("#calc-usd").addEventListener("input", () => {
-      if (tasaActual <= 0) return;
-      const usd = parseFloat($("#calc-usd").value) || 0;
-      $("#calc-bs").value = usd > 0 ? (usd * tasaActual).toFixed(2) : "";
-    });
+      $("#form-transaccion").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const orig = parseFloat($("#monto_orig").value);
+        const mon = $("#moneda").value;
+        let tc = parseFloat($("#tasa_cambio").value) || tasaActual || 1.0;
+        let bs = mon === "BS" ? orig : orig * tc;
 
-    // ---- Inicialización ----
-    async function init() {
-      mostrarMsg("Conectando con el servidor... (si está dormido puede tardar ~40 s)", "info");
-      try {
+        const body = {
+          tipo: $("#tipo").value,
+          moneda: mon,
+          monto_original: orig,
+          tasa_cambio: tc,
+          monto_bs: bs,
+          descripcion: $("#descripcion").value,
+          categoria: $("#categoria").value,
+        };
+
+        try {
+          await api("/transacciones", {
+            method: "POST",
+            body: JSON.stringify(body),
+          });
+          msg("Movimiento registrado", "ok");
+          e.target.reset();
+          cargarHistorial();
+          cargarBalance();
+        } catch (err) {
+          msg(err.message, "error");
+        }
+      });
+
+      $("#form-deuda").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const body = {
+          acreedor: $("#d-acreedor").value,
+          monto_total_usd: parseFloat($("#d-monto").value),
+          fecha_limite: $("#d-fecha").value,
+        };
+
+        try {
+          await api("/deudas", { method: "POST", body: JSON.stringify(body) });
+          msg("Deuda agregada", "ok");
+          e.target.reset();
+          cargarDeudas();
+          cargarBalance();
+        } catch (err) {
+          msg(err.message, "error");
+        }
+      });
+
+      async function init() {
         await cargarTasa();
-        await Promise.all([cargarBalance(), cargarHistorial()]);
-        ocultarMsg();
-      } catch (e) {
-        mostrarMsg(e.message, "error");
+        await Promise.all([cargarBalance(), cargarDeudas(), cargarHistorial()]);
       }
-    }
 
-    init();
-  </script>
-</body>
+      init();
+    </script>
+  </body>
 </html>
