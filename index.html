@@ -1,765 +1,575 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-    />
-    <title>Finanzas del Caballero — Hallownest Edition</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-    <style>
-      :root {
-        --bg: #0d0d14;
-        --bg-card: #1a1a2e;
-        --text: #e8e0d1;
-        --gold: #c9a84c;
-        --ghost: #4a6b8a;
-        --danger: #8b3a3a;
-        --success: #3a8b5c;
-        --usdt: #26a17b;
-        --border: rgba(201, 168, 76, 0.25);
-        --shadow-gold: 0 0 12px rgba(201, 168, 76, 0.35);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Finanzas del Caballero — Hallownest Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0d0d14;
+      --bg-card: #1a1a2e;
+      --text: #e8e0d1;
+      --gold: #c9a84c;
+      --ghost: #4a6b8a;
+      --danger: #8b3a3a;
+      --success: #3a8b5c;
+      --usdt: #26a17b;
+      --border: rgba(201, 168, 76, 0.25);
+      --shadow-gold: 0 0 12px rgba(201, 168, 76, 0.35);
+    }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      body {
-        font-family: "Inter", system-ui, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-        line-height: 1.5;
-        background-image:
-          radial-gradient(
-            ellipse at 20% 0%,
-            rgba(74, 107, 138, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            ellipse at 80% 100%,
-            rgba(201, 168, 76, 0.05) 0%,
-            transparent 40%
-          );
-      }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(74, 107, 138, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(201, 168, 76, 0.05) 0%, transparent 40%);
+    }
 
-      h1,
-      h2,
-      h3 {
-        font-family: "Cinzel", serif;
-        letter-spacing: 0.04em;
-      }
+    h1, h2, h3 { font-family: 'Cinzel', serif; letter-spacing: 0.04em; }
 
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 1.25rem 1rem 3rem;
-      }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 
-      header {
-        text-align: center;
-        padding: 1.5rem 0 2rem;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 2rem;
-        position: relative;
-      }
+    header {
+      text-align: center;
+      padding: 1.2rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
 
-      header::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-      }
+    header h1 {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+      margin-bottom: 0.3rem;
+    }
 
-      header h1 {
-        font-size: clamp(1.6rem, 5vw, 2.4rem);
-        color: var(--gold);
-        text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
-        margin-bottom: 0.4rem;
-      }
+    header p { color: var(--ghost); font-size: 0.85rem; }
 
-      header p {
-        color: var(--ghost);
-        font-size: 0.95rem;
-      }
+    /* Barra de Navegación Móvil por Pestañas */
+    .nav-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.3rem;
+      margin-bottom: 1.5rem;
+      gap: 0.3rem;
+    }
 
-      .card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1.25rem;
-        box-shadow: var(--shadow-gold);
-        margin-bottom: 1.5rem;
-        position: relative;
-        overflow: hidden;
-      }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--ghost);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.7rem 0.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
 
-      .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-      }
+    .tab-btn i { font-size: 1rem; }
 
-      .card-title {
-        font-size: 1.15rem;
-        color: var(--gold);
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
+    .tab-btn.active {
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--gold);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 8px rgba(201, 168, 76, 0.2);
+    }
 
-      /* Grid de Balance Geral */
-      .resumen-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
+    /* Secciones Intercambiables */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-      @media (min-width: 640px) {
-        .resumen-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow-gold);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-      .stat {
-        text-align: center;
-        padding: 1rem;
-        background: rgba(0, 0, 0, 0.25);
-        border-radius: 8px;
-        border: 1px solid rgba(74, 107, 138, 0.3);
-      }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
 
-      .stat-label {
-        font-size: 0.78rem;
-        color: var(--ghost);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 0.35rem;
-      }
+    .card-title {
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-      .stat-value {
-        font-family: "Cinzel", serif;
-        font-size: 1.35rem;
-        font-weight: 600;
-      }
-      .stat-value.positivo {
-        color: var(--gold);
-      }
-      .stat-value.usdt {
-        color: var(--usdt);
-      }
-      .stat-value.negativo {
-        color: #e8b4b4;
-      }
+    /* Grid de Balance */
+    .resumen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
 
-      /* Formulario */
-      .form-grid {
-        display: grid;
-        gap: 1rem;
-      }
+    @media (min-width: 640px) {
+      .resumen-grid { grid-template-columns: repeat(3, 1fr); }
+    }
 
-      @media (min-width: 640px) {
-        .form-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .form-grid .full {
-          grid-column: 1 / -1;
-        }
-      }
+    .stat {
+      text-align: center;
+      padding: 0.9rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border: 1px solid rgba(74, 107, 138, 0.3);
+    }
 
-      label {
-        display: block;
-        font-size: 0.85rem;
-        color: var(--ghost);
-        margin-bottom: 0.35rem;
-      }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--ghost);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+    }
 
-      input,
-      select {
-        width: 100%;
-        padding: 0.75rem 0.9rem;
-        background: rgba(0, 0, 0, 0.4);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        color: var(--text);
-        font-size: 1rem;
-      }
+    .stat-value { font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 600; }
+    .stat-value.positivo { color: var(--gold); }
+    .stat-value.usdt { color: var(--usdt); }
+    .stat-value.negativo { color: #e8b4b4; }
 
-      input:focus,
-      select:focus {
-        outline: none;
-        border-color: var(--gold);
-        box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
-      }
+    /* Formularios */
+    .form-grid { display: grid; gap: 0.9rem; }
+    label { display: block; font-size: 0.82rem; color: var(--ghost); margin-bottom: 0.3rem; }
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.85rem 1.4rem;
-        font-family: "Cinzel", serif;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border: 1px solid var(--gold);
-        border-radius: 6px;
-        background: linear-gradient(
-          180deg,
-          rgba(201, 168, 76, 0.25),
-          rgba(201, 168, 76, 0.1)
-        );
-        color: var(--gold);
-        cursor: pointer;
-        width: 100%;
-        min-height: 48px;
-      }
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
 
-      .btn:hover {
-        background: linear-gradient(
-          180deg,
-          rgba(201, 168, 76, 0.4),
-          rgba(201, 168, 76, 0.2)
-        );
-      }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    }
 
-      .btn-sm {
-        padding: 0.4rem 0.75rem;
-        min-height: 36px;
-        font-size: 0.8rem;
-        width: auto;
-      }
-      .btn-danger {
-        border-color: var(--danger);
-        color: #e8b4b4;
-        background: rgba(139, 58, 58, 0.2);
-      }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      background: linear-gradient(180deg, rgba(201, 168, 76, 0.25), rgba(201, 168, 76, 0.1));
+      color: var(--gold);
+      cursor: pointer;
+      width: 100%;
+      min-height: 48px;
+    }
 
-      /* Tablas */
-      .table-wrap {
-        overflow-x: auto;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.9rem;
-      }
-      th {
-        text-align: left;
-        padding: 0.75rem 0.5rem;
-        color: var(--ghost);
-        border-bottom: 1px solid var(--border);
-      }
-      td {
-        padding: 0.85rem 0.5rem;
-        border-bottom: 1px solid rgba(74, 107, 138, 0.2);
-      }
+    .btn:hover { background: linear-gradient(180deg, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.2)); }
+    .btn-sm { padding: 0.4rem 0.7rem; min-height: 36px; font-size: 0.8rem; width: auto; }
+    .btn-danger { border-color: var(--danger); color: #e8b4b4; background: rgba(139, 58, 58, 0.2); }
 
-      .tipo-ingreso {
-        color: var(--gold);
-      }
-      .tipo-gasto {
-        color: #e8b4b4;
-      }
+    /* Tablas */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { text-align: left; padding: 0.6rem 0.4rem; color: var(--ghost); border-bottom: 1px solid var(--border); }
+    td { padding: 0.7rem 0.4rem; border-bottom: 1px solid rgba(74, 107, 138, 0.2); }
 
-      /* Layout Principal */
-      .main-grid {
-        display: grid;
-        gap: 1.5rem;
-      }
-      @media (min-width: 900px) {
-        .main-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .full-width {
-          grid-column: 1 / -1;
-        }
-      }
+    .tipo-ingreso { color: var(--gold); }
+    .tipo-gasto { color: #e8b4b4; }
 
-      .msg {
-        padding: 0.9rem 1rem;
-        border-radius: 6px;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-        display: none;
-      }
-      .msg.error {
-        display: block;
-        background: rgba(139, 58, 58, 0.25);
-        border: 1px solid var(--danger);
-        color: #e8b4b4;
-      }
-      .msg.ok {
-        display: block;
-        background: rgba(201, 168, 76, 0.15);
-        border: 1px solid var(--gold);
-        color: var(--gold);
-      }
-      .msg.info {
-        display: block;
-        background: rgba(74, 107, 138, 0.2);
-        border: 1px solid var(--ghost);
-        color: var(--text);
-      }
+    .msg { padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.85rem; display: none; }
+    .msg.error { display: block; background: rgba(139, 58, 58, 0.25); border: 1px solid var(--danger); color: #e8b4b4; }
+    .msg.ok { display: block; background: rgba(201, 168, 76, 0.15); border: 1px solid var(--gold); color: var(--gold); }
+    .msg.info { display: block; background: rgba(74, 107, 138, 0.2); border: 1px solid var(--ghost); color: var(--text); }
 
-      .tasa-card {
-        text-align: center;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 1rem;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-      }
-      .tasa-val {
-        font-family: "Cinzel", serif;
-        font-size: 1.8rem;
-        color: var(--gold);
-      }
+    .tasa-card { text-align: center; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); }
+    .tasa-val { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); }
 
-      footer {
-        text-align: center;
-        margin-top: 2.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--border);
-        color: var(--ghost);
-        font-size: 0.8rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>
-          <i class="fa-solid fa-shield-halved"></i> Finanzas del Caballero
-        </h1>
-        <p>Gestión Multimoneda · Cashea & Binance P2P · Hallownest Edition</p>
-      </header>
+    footer { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--ghost); font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fa-solid fa-shield-halved"></i> Finanzas del Caballero</h1>
+      <p>Hallownest Mobile Edition</p>
+    </header>
 
-      <div id="global-msg" class="msg"></div>
+    <div id="global-msg" class="msg"></div>
 
-      <!-- BALANCE PRINCIPAL -->
-      <section class="card full-width">
-        <h2 class="card-title">
-          <i class="fa-solid fa-gem"></i> Gros de Geo (Saldos & Deudas)
-        </h2>
+    <!-- NAVEGACIÓN MÓVIL (PESTAÑAS) -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="cambiarTab('resumen', this)">
+        <i class="fa-solid fa-gem"></i>
+        <span>Resumen</span>
+      </button>
+      <button class="tab-btn" onclick="cambiarTab('movimientos', this)">
+        <i class="fa-solid fa-scroll"></i>
+        <span>Movimientos</span>
+      </button>
+      <button class="tab-btn" onclick="cambiarTab('deudas', this)">
+        <i class="fa-solid fa-skull"></i>
+        <span>Deudas</span>
+      </button>
+      <button class="tab-btn" onclick="cambiarTab('tasa', this)">
+        <i class="fa-solid fa-coins"></i>
+        <span>Tasa BCV</span>
+      </button>
+    </nav>
+
+    <!-- PESTAÑA 1: RESUMEN Y BALANCE -->
+    <div id="tab-resumen" class="tab-content active">
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-gem"></i> Gros de Geo</h2>
         <div class="resumen-grid">
           <div class="stat">
-            <div class="stat-label">Saldo en Bancos (Bs.)</div>
+            <div class="stat-label">Bancos (Bs.)</div>
             <div class="stat-value positivo" id="saldo-bs">—</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Billetera Binance (USDT)</div>
+            <div class="stat-label">Binance (USDT)</div>
             <div class="stat-value usdt" id="saldo-usdt">—</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Deudas Pendientes (Cashea)</div>
+            <div class="stat-label">Deudas (Cashea)</div>
             <div class="stat-value negativo" id="deudas-usd">—</div>
           </div>
         </div>
       </section>
 
-      <div class="main-grid">
-        <!-- REGISTRO DE MOVIMIENTOS -->
-        <section class="card">
-          <h2 class="card-title">
-            <i class="fa-solid fa-scroll"></i> Registrar Movimiento
-          </h2>
-          <form id="form-transaccion" class="form-grid">
-            <div>
-              <label for="tipo">Tipo</label>
-              <select id="tipo" required>
-                <option value="ingreso">Ingreso (+)</option>
-                <option value="gasto">Gasto (-)</option>
-              </select>
-            </div>
-            <div>
-              <label for="moneda">Moneda</label>
-              <select id="moneda" required>
-                <option value="BS">Bolívares (Bs.)</option>
-                <option value="USDT">Binance (USDT)</option>
-                <option value="USD">Dólares ($)</option>
-              </select>
-            </div>
-            <div>
-              <label for="monto_orig">Monto</label>
-              <input
-                type="number"
-                id="monto_orig"
-                step="0.01"
-                min="0.01"
-                placeholder="0.00"
-                required
-              />
-            </div>
-            <div>
-              <label for="tasa_cambio">Tasa de Cambio (Bs/$)</label>
-              <input
-                type="number"
-                id="tasa_cambio"
-                step="0.01"
-                placeholder="Usar Tasa BCV"
-              />
-            </div>
-            <div class="full">
-              <label for="descripcion">Descripción</label>
-              <input
-                type="text"
-                id="descripcion"
-                placeholder="Ej: Sueldo semanal, pasajes, comida..."
-                required
-              />
-            </div>
-            <div class="full">
-              <label for="categoria">Categoría</label>
-              <select id="categoria">
-                <option value="salario">Salario / Ingresos</option>
-                <option value="casa">Aporte Casa</option>
-                <option value="transporte">Pasaje / Transporte</option>
-                <option value="comida">Comida / Mercado</option>
-                <option value="cashea">Pago Cashea</option>
-                <option value="ocio">Ocio / Caprichos</option>
-                <option value="otros">Otros</option>
-              </select>
-            </div>
-            <div class="full">
-              <button type="submit" class="btn" id="btn-guardar">
-                <i class="fa-solid fa-plus"></i> Registrar
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- DEUDAS Y CASHEA -->
-        <section class="card">
-          <h2 class="card-title">
-            <i class="fa-solid fa-skull"></i> Espinas del Reino (Cashea /
-            Créditos)
-          </h2>
-          <form
-            id="form-deuda"
-            style="margin-bottom: 1.25rem"
-            class="form-grid"
-          >
-            <div>
-              <label for="d-acreedor">Acreedor / Concepto</label>
-              <input
-                type="text"
-                id="d-acreedor"
-                placeholder="Ej: Cashea Comida"
-                required
-              />
-            </div>
-            <div>
-              <label for="d-monto">Monto Total ($)</label>
-              <input
-                type="number"
-                id="d-monto"
-                step="0.01"
-                placeholder="Ej: 40.00"
-                required
-              />
-            </div>
-            <div class="full">
-              <label for="d-fecha">Fecha Límite</label>
-              <input type="date" id="d-fecha" required />
-            </div>
-            <div class="full">
-              <button type="submit" class="btn">
-                <i class="fa-solid fa-file-invoice-dollar"></i> Agregar Deuda
-              </button>
-            </div>
-          </form>
-
-          <div id="lista-deudas">
-            <p style="color: var(--ghost); text-align: center">
-              Cargando deudas...
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <!-- CALCULADORA BCV & HISTORIAL -->
-      <div class="main-grid">
-        <section class="card">
-          <h2 class="card-title">
-            <i class="fa-solid fa-coins"></i> Tasa Oficial BCV
-          </h2>
-          <div class="tasa-card">
-            <div class="stat-label">Tasa Oficial</div>
-            <div class="tasa-val" id="tasa-valor">—</div>
-            <div style="font-size: 0.8rem; color: var(--ghost)" id="tasa-fecha">
-              Cargando...
-            </div>
-          </div>
-        </section>
-
-        <section class="card full-width">
-          <h2 class="card-title">
-            <i class="fa-solid fa-book"></i> Historial de Movimientos
-          </h2>
-          <div id="tabla-container">
-            <p style="color: var(--ghost); text-align: center">
-              Cargando historial...
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <footer>
-        <p>
-          <i class="fa-solid fa-bug"></i> Finanzas del Caballero · Estética
-          Hollow Knight
-        </p>
-      </footer>
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-bolt"></i> Acciones Rápidas</h2>
+        <p style="color:var(--ghost); font-size: 0.85rem; margin-bottom: 1rem;">Usa las pestañas superiores para registrar nuevos gastos, ingresos o abonar a tus deudas de manera cómoda desde el celular.</p>
+        <button class="btn" onclick="cambiarTab('movimientos', document.querySelectorAll('.tab-btn')[1])"><i class="fa-solid fa-plus"></i> Ir a Registrar Movimiento</button>
+      </section>
     </div>
 
-    <script>
-      const API_URL = "https://finanzas-qurk.onrender.com"; // Ajusta tu URL de Render
+    <!-- PESTAÑA 2: MOVIMIENTOS (REGISTRO E HISTORIAL) -->
+    <div id="tab-movimientos" class="tab-content">
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-scroll"></i> Nuevo Movimiento</h2>
+        <form id="form-transaccion" class="form-grid">
+          <div>
+            <label for="tipo">Tipo</label>
+            <select id="tipo" required>
+              <option value="ingreso">Ingreso (+)</option>
+              <option value="gasto">Gasto (-)</option>
+            </select>
+          </div>
+          <div>
+            <label for="moneda">Moneda</label>
+            <select id="moneda" required>
+              <option value="BS">Bolívares (Bs.)</option>
+              <option value="USDT">Binance (USDT)</option>
+              <option value="USD">Dólares ($)</option>
+            </select>
+          </div>
+          <div>
+            <label for="monto_orig">Monto</label>
+            <input type="number" id="monto_orig" step="0.01" min="0.01" placeholder="0.00" required />
+          </div>
+          <div>
+            <label for="tasa_cambio">Tasa (Bs/$)</label>
+            <input type="number" id="tasa_cambio" step="0.01" placeholder="Automática" />
+          </div>
+          <div>
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" placeholder="Ej: Sueldo, pasaje..." required />
+          </div>
+          <div>
+            <label for="categoria">Categoría</label>
+            <select id="categoria">
+              <option value="salario">Salario</option>
+              <option value="casa">Aporte Casa</option>
+              <option value="transporte">Transporte / Pasaje</option>
+              <option value="comida">Comida / Mercado</option>
+              <option value="cashea">Pago Cashea</option>
+              <option value="ocio">Ocio / Caprichos</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+          <div>
+            <button type="submit" class="btn" id="btn-guardar"><i class="fa-solid fa-plus"></i> Guardar Movimiento</button>
+          </div>
+        </form>
+      </section>
 
-      let tasaActual = 0;
-      const $ = (s) => document.querySelector(s);
-      const fmtBs = (n) =>
-        Number(n).toLocaleString("es-VE", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-book"></i> Historial</h2>
+        <div id="tabla-container">
+          <p style="color:var(--ghost); text-align:center;">Cargando...</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- PESTAÑA 3: DEUDAS Y CASHEA -->
+    <div id="tab-deudas" class="tab-content">
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-skull"></i> Espinas del Reino (Cashea)</h2>
+        <form id="form-deuda" style="margin-bottom: 1.25rem;" class="form-grid">
+          <div>
+            <label for="d-acreedor">Concepto</label>
+            <input type="text" id="d-acreedor" placeholder="Ej: Cashea Comida" required />
+          </div>
+          <div>
+            <label for="d-monto">Monto Total ($)</label>
+            <input type="number" id="d-monto" step="0.01" placeholder="40.00" required />
+          </div>
+          <div>
+            <label for="d-fecha">Fecha Límite</label>
+            <input type="date" id="d-fecha" required />
+          </div>
+          <div>
+            <button type="submit" class="btn"><i class="fa-solid fa-file-invoice-dollar"></i> Agregar Deuda</button>
+          </div>
+        </form>
+
+        <div id="lista-deudas">
+          <p style="color:var(--ghost); text-align:center;">Cargando deudas...</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- PESTAÑA 4: TASA BCV -->
+    <div id="tab-tasa" class="tab-content">
+      <section class="card">
+        <h2 class="card-title"><i class="fa-solid fa-coins"></i> Tasa Oficial BCV</h2>
+        <div class="tasa-card" style="margin-bottom: 1rem;">
+          <div class="stat-label">Tasa Actual</div>
+          <div class="tasa-val" id="tasa-valor">—</div>
+          <div style="font-size: 0.8rem; color: var(--ghost); margin-top: 0.3rem;" id="tasa-fecha">Cargando...</div>
+        </div>
+        <button type="button" class="btn" onclick="forzarActualizarTasa()"><i class="fa-solid fa-rotate"></i> Recargar Tasa</button>
+      </section>
+    </div>
+
+    <footer>
+      <p><i class="fa-solid fa-bug"></i> Finanzas del Caballero · Mobile Tabs</p>
+    </footer>
+  </div>
+
+  <script>
+    const API_URL = "https://finanzas-qurk.onrender.com";
+
+    let tasaActual = 0;
+    const $ = (s) => document.querySelector(s);
+    const fmtBs = (n) => Number(n).toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtUsd = (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function msg(texto, tipo = "info") {
+      const el = $("#global-msg");
+      el.textContent = texto;
+      el.className = `msg ${tipo}`;
+      if (tipo === "ok") setTimeout(() => { el.className = "msg"; el.textContent = ""; }, 3500);
+    }
+
+    // Control de Pestañas Móviles
+    function cambiarTab(tabId, btnElement) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      $(`#tab-${tabId}`).classList.add('active');
+      btnElement.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function api(path, opts = {}) {
+      try {
+        const res = await fetch(`${API_URL}${path}`, {
+          ...opts,
+          headers: { "Content-Type": "application/json", ...(opts.headers || {}) }
         });
-      const fmtUsd = (n) =>
-        Number(n).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-
-      function msg(texto, tipo = "info") {
-        const el = $("#global-msg");
-        el.textContent = texto;
-        el.className = `msg ${tipo}`;
-        if (tipo === "ok")
-          setTimeout(() => {
-            el.className = "msg";
-            el.textContent = "";
-          }, 3500);
+        if (!res.ok) throw new Error("Error en la solicitud");
+        return await res.json();
+      } catch (e) {
+        throw new Error("Servidor durmiendo o sin conexión. Espera unos segundos.");
       }
+    }
 
-      async function api(path, opts = {}) {
-        try {
-          const res = await fetch(`${API_URL}${path}`, {
-            ...opts,
-            headers: {
-              "Content-Type": "application/json",
-              ...(opts.headers || {}),
-            },
-          });
-          if (!res.ok) throw new Error("Error en la solicitud");
-          return await res.json();
-        } catch (e) {
-          throw new Error(
-            "Servidor no responde o está despertando de Render. Intenta en unos segundos.",
-          );
+    async function cargarTasa() {
+      try {
+        const d = await api("/tasa-bcv");
+        tasaActual = d.tasa;
+        $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
+        $("#tasa-fecha").textContent = `Actualizada: ${d.fecha} · ${d.fuente}`;
+        if ($("#tasa_cambio")) $("#tasa_cambio").placeholder = tasaActual.toString();
+      } catch (e) {
+        $("#tasa-valor").textContent = "—";
+      }
+    }
+
+    async function forzarActualizarTasa() {
+      msg("Sincronizando tasa...", "info");
+      await cargarTasa();
+      msg("¡Tasa al día!", "ok");
+    }
+
+    async function cargarBalance() {
+      try {
+        const b = await api("/balance");
+        $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
+        $("#saldo-usdt").textContent = `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
+        $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
+      } catch (e) {
+        msg(e.message, "error");
+      }
+    }
+
+    async function cargarDeudas() {
+      const cont = $("#lista-deudas");
+      try {
+        const deudas = await api("/deudas");
+        if (!deudas.length) {
+          cont.innerHTML = `<p style="color:var(--ghost); text-align:center;">¡Sin deudas pendientes!</p>`;
+          return;
         }
-      }
 
-      async function cargarTasa() {
-        try {
-          const d = await api("/tasa-bcv");
-          tasaActual = d.tasa;
-          $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
-          $("#tasa-fecha").textContent = `Actualizada: ${d.fecha}`;
-          $("#tasa_cambio").placeholder = tasaActual.toString();
-        } catch (e) {
-          $("#tasa-valor").textContent = "—";
-        }
-      }
-
-      async function cargarBalance() {
-        try {
-          const b = await api("/balance");
-          $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
-          $("#saldo-usdt").textContent =
-            `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
-          $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
-        } catch (e) {
-          msg(e.message, "error");
-        }
-      }
-
-      async function cargarDeudas() {
-        const cont = $("#lista-deudas");
-        try {
-          const deudas = await api("/deudas");
-          if (!deudas.length) {
-            cont.innerHTML = `<p style="color:var(--ghost); text-align:center;">¡Sin deudas pendientes en el Reino!</p>`;
-            return;
-          }
-
-          let html =
-            '<div class="table-wrap"><table><thead><tr><th>Acreedor</th><th>Monto</th><th>Pagado</th><th>Límite</th><th>Acción</th></tr></thead><tbody>';
-          for (const d of deudas) {
-            const rest = d.monto_total_usd - d.monto_pagado_usd;
-            html += `
+        let html = '<div class="table-wrap"><table><thead><tr><th>Acreedor</th><th>Total</th><th>Pagado</th><th>Acción</th></tr></thead><tbody>';
+        for (const d of deudas) {
+          html += `
             <tr>
               <td>${d.acreedor}</td>
               <td>$${fmtUsd(d.monto_total_usd)}</td>
               <td>$${fmtUsd(d.monto_pagado_usd)}</td>
-              <td>${d.fecha_limite}</td>
               <td>
-                ${!d.completado ? `<button class="btn btn-sm" onclick="abonar('${d.id}')">Abonar</button>` : '<span style="color:var(--success)">Pagado</span>'}
+                ${!d.completado ? `<button class="btn btn-sm" onclick="abonar('${d.id}')">Abonar</button>` : '<span style="color:var(--success)">Listo</span>'}
               </td>
             </tr>
           `;
-          }
-          html += "</tbody></table></div>";
-          cont.innerHTML = html;
-        } catch (e) {
-          cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`;
         }
+        html += '</tbody></table></div>';
+        cont.innerHTML = html;
+      } catch (e) {
+        cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`;
       }
+    }
 
-      async function abonar(id) {
-        const m = prompt("¿Cuánto deseas abonar en USD ($)?");
-        if (!m || isNaN(m)) return;
-        try {
-          await api(`/deudas/${id}/abonar`, {
-            method: "POST",
-            body: JSON.stringify({ monto_usd: parseFloat(m) }),
-          });
-          msg("Abono registrado", "ok");
-          cargarDeudas();
-          cargarBalance();
-        } catch (e) {
-          msg(e.message, "error");
+    async function abonar(id) {
+      const m = prompt("¿Cuánto deseas abonar en USD ($)?");
+      if (!m || isNaN(m)) return;
+      try {
+        await api(`/deudas/${id}/abonar`, { method: "POST", body: JSON.stringify({ monto_usd: parseFloat(m) }) });
+        msg("Abono registrado", "ok");
+        cargarDeudas(); cargarBalance();
+      } catch (e) { msg(e.message, "error"); }
+    }
+
+    async function cargarHistorial() {
+      const cont = $("#tabla-container");
+      try {
+        const lista = await api("/transacciones");
+        if (!lista.length) {
+          cont.innerHTML = '<p style="color:var(--ghost); text-align:center;">Sin movimientos.</p>';
+          return;
         }
-      }
 
-      async function cargarHistorial() {
-        const cont = $("#tabla-container");
-        try {
-          const lista = await api("/transacciones");
-          if (!lista.length) {
-            cont.innerHTML =
-              '<p style="color:var(--ghost); text-align:center;">Sin movimientos registrados.</p>';
-            return;
-          }
-
-          let html =
-            '<div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Monto Orig.</th><th>Monto (Bs.)</th><th>Descripción</th><th></th></tr></thead><tbody>';
-          for (const t of lista) {
-            const cl = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
-            html += `
+        let html = '<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Monto</th><th>Desc.</th><th></th></tr></thead><tbody>';
+        for (const t of lista) {
+          const cl = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
+          html += `
             <tr>
-              <td>${new Date(t.fecha_creacion).toLocaleDateString()}</td>
               <td class="${cl}">${t.tipo}</td>
               <td>${t.monto_original} ${t.moneda}</td>
-              <td class="${cl}">${fmtBs(t.monto_bs)} Bs.</td>
               <td>${t.descripcion}</td>
               <td><button class="btn btn-sm btn-danger" onclick="eliminar('${t.id}')"><i class="fa-solid fa-trash"></i></button></td>
             </tr>
           `;
-          }
-          html += "</tbody></table></div>";
-          cont.innerHTML = html;
-        } catch (e) {
-          cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`;
         }
-      }
+        html += '</tbody></table></div>';
+        cont.innerHTML = html;
+      } catch (e) { cont.innerHTML = `<p style="color:var(--danger);">${e.message}</p>`; }
+    }
 
-      async function eliminar(id) {
-        if (!confirm("¿Eliminar este movimiento?")) return;
-        try {
-          await api(`/transacciones/${id}`, { method: "DELETE" });
-          msg("Eliminado con éxito", "ok");
-          cargarHistorial();
-          cargarBalance();
-        } catch (e) {
-          msg(e.message, "error");
-        }
-      }
+    async function eliminar(id) {
+      if (!confirm("¿Eliminar?")) return;
+      try {
+        await api(`/transacciones/${id}`, { method: "DELETE" });
+        msg("Eliminado", "ok");
+        cargarHistorial(); cargarBalance();
+      } catch (e) { msg(e.message, "error"); }
+    }
 
-      $("#form-transaccion").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const orig = parseFloat($("#monto_orig").value);
-        const mon = $("#moneda").value;
-        let tc = parseFloat($("#tasa_cambio").value) || tasaActual || 1.0;
-        let bs = mon === "BS" ? orig : orig * tc;
+    $("#form-transaccion").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const orig = parseFloat($("#monto_orig").value);
+      const mon = $("#moneda").value;
+      let tc = parseFloat($("#tasa_cambio").value) || tasaActual || 1.0;
+      let bs = mon === "BS" ? orig : orig * tc;
 
-        const body = {
-          tipo: $("#tipo").value,
-          moneda: mon,
-          monto_original: orig,
-          tasa_cambio: tc,
-          monto_bs: bs,
-          descripcion: $("#descripcion").value,
-          categoria: $("#categoria").value,
-        };
+      const body = {
+        tipo: $("#tipo").value,
+        moneda: mon,
+        monto_original: orig,
+        tasa_cambio: tc,
+        monto_bs: bs,
+        descripcion: $("#descripcion").value,
+        categoria: $("#categoria").value
+      };
 
-        try {
-          await api("/transacciones", {
-            method: "POST",
-            body: JSON.stringify(body),
-          });
-          msg("Movimiento registrado", "ok");
-          e.target.reset();
-          cargarHistorial();
-          cargarBalance();
-        } catch (err) {
-          msg(err.message, "error");
-        }
-      });
+      try {
+        await api("/transacciones", { method: "POST", body: JSON.stringify(body) });
+        msg("Registrado con éxito", "ok");
+        e.target.reset();
+        cargarHistorial(); cargarBalance();
+        cambiarTab('resumen', document.querySelectorAll('.tab-btn')[0]); // Volver al resumen
+      } catch (err) { msg(err.message, "error"); }
+    });
 
-      $("#form-deuda").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const body = {
-          acreedor: $("#d-acreedor").value,
-          monto_total_usd: parseFloat($("#d-monto").value),
-          fecha_limite: $("#d-fecha").value,
-        };
+    $("#form-deuda").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const body = {
+        acreedor: $("#d-acreedor").value,
+        monto_total_usd: parseFloat($("#d-monto").value),
+        fecha_limite: $("#d-fecha").value
+      };
 
-        try {
-          await api("/deudas", { method: "POST", body: JSON.stringify(body) });
-          msg("Deuda agregada", "ok");
-          e.target.reset();
-          cargarDeudas();
-          cargarBalance();
-        } catch (err) {
-          msg(err.message, "error");
-        }
-      });
+      try {
+        await api("/deudas", { method: "POST", body: JSON.stringify(body) });
+        msg("Deuda agregada", "ok");
+        e.target.reset();
+        cargarDeudas(); cargarBalance();
+      } catch (err) { msg(err.message, "error"); }
+    });
 
-      async function init() {
-        await cargarTasa();
-        await Promise.all([cargarBalance(), cargarDeudas(), cargarHistorial()]);
-      }
+    async function init() {
+      await cargarTasa();
+      await Promise.all([cargarBalance(), cargarDeudas(), cargarHistorial()]);
+    }
 
-      init();
-    </script>
-  </body>
+    init();
+  </script>
+</body>
 </html>
