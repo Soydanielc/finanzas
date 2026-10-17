@@ -18,11 +18,8 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 # Configuración
 # ---------------------------------------------------------------------------
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://bvmyocbvnhifhbdpuvzy.supabase.co")
-SUPABASE_KEY = os.getenv(
-    "SUPABASE_KEY",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2bXlvY2J2bmhpZmhiZHB1dnp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyMDU0NzgsImV4cCI6MjEwNzc4MTQ3OH0.J858Vbjc5M0kCu0jqXxDQSD_3gMREUZ1DHgZ-m2I980",
-)
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("Faltan SUPABASE_URL o SUPABASE_KEY.")
