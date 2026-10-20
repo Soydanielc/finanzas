@@ -15,9 +15,6 @@ from supabase import Client, create_client
 
 load_dotenv()
 
-# ---------------------------------------------------------------------------
-# Configuración
-# ---------------------------------------------------------------------------
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
@@ -43,9 +40,6 @@ app.add_middleware(
 CACHE_TASA = {"tasa": 0.0, "fecha": "", "fuente": ""}
 
 
-# ---------------------------------------------------------------------------
-# Modelos Pydantic
-# ---------------------------------------------------------------------------
 class TransaccionCreate(BaseModel):
     tipo: str = Field(..., pattern="^(ingreso|gasto)$")
     moneda: str = Field("BS", pattern="^(BS|USD|USDT)$")
@@ -92,9 +86,6 @@ class TasaBCV(BaseModel):
     fuente: str
 
 
-# ---------------------------------------------------------------------------
-# Consulta Tasa BCV
-# ---------------------------------------------------------------------------
 async def consultar_dolarapi(client: httpx.AsyncClient) -> TasaBCV:
     resp = await client.get("https://ve.dolarapi.com/v1/dolares/oficial")
     resp.raise_for_status()
@@ -123,9 +114,6 @@ async def consultar_pydolarve(client: httpx.AsyncClient) -> TasaBCV:
     )
 
 
-# ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
 @app.get("/")
 async def root():
     return {"mensaje": "API Finanzas del Caballero v2.1 Activa", "docs": "/docs"}
@@ -269,9 +257,6 @@ async def eliminar_transaccion(id: str):
         raise HTTPException(status_code=500, detail=f"Error al eliminar: {e!s}")
 
 
-# ---------------------------------------------------------------------------
-# Módulo de Deudas (Cashea)
-# ---------------------------------------------------------------------------
 @app.get("/deudas")
 async def listar_deudas():
     try:
