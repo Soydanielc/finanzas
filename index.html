@@ -75,9 +75,9 @@
       border: none;
       color: var(--ghost);
       font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 0.7rem 0.4rem;
+      padding: 0.7rem 0.3rem;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
@@ -156,7 +156,8 @@
       margin-bottom: 0.3rem;
     }
 
-    .stat-value { font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 600; }
+    .stat-value { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 600; }
+    .stat-sub { font-size: 0.75rem; color: var(--ghost); margin-top: 0.2rem; }
     .stat-value.positivo { color: var(--gold); }
     .stat-value.usdt { color: var(--usdt); }
     .stat-value.negativo { color: #e8b4b4; }
@@ -205,7 +206,7 @@
 
     /* Tablas */
     .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     th { text-align: left; padding: 0.6rem 0.4rem; color: var(--ghost); border-bottom: 1px solid var(--border); }
     td { padding: 0.7rem 0.4rem; border-bottom: 1px solid rgba(74, 107, 138, 0.2); }
 
@@ -217,8 +218,45 @@
     .msg.ok { display: block; background: rgba(201, 168, 76, 0.15); border: 1px solid var(--gold); color: var(--gold); }
     .msg.info { display: block; background: rgba(74, 107, 138, 0.2); border: 1px solid var(--ghost); color: var(--text); }
 
-    .tasa-card { text-align: center; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); }
-    .tasa-val { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); }
+    .tasa-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.2rem;
+    }
+    .tasa-banner-val { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); font-weight: 600; }
+
+    /* Modal Personalizado */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: var(--shadow-gold);
+      text-align: center;
+    }
+    .modal-card h3 { color: var(--gold); margin-bottom: 0.8rem; font-size: 1.2rem; }
+    .modal-card p { font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--text); }
+    .modal-buttons { display: flex; gap: 0.8rem; }
 
     footer { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--ghost); font-size: 0.75rem; }
   </style>
@@ -246,35 +284,44 @@
         <i class="fa-solid fa-skull"></i>
         <span>Deudas</span>
       </button>
-      <button class="tab-btn" onclick="cambiarTab('tasa', this)">
-        <i class="fa-solid fa-coins"></i>
-        <span>Tasa BCV</span>
-      </button>
     </nav>
 
     <!-- PESTAÑA 1: RESUMEN Y BALANCE -->
     <div id="tab-resumen" class="tab-content active">
+      <!-- Banner Tasa BCV Integrada -->
+      <div class="tasa-banner">
+        <div>
+          <div style="font-size: 0.7rem; color: var(--ghost); text-transform: uppercase;">Tasa BCV Oficial</div>
+          <div class="tasa-banner-val" id="tasa-valor">Cargando...</div>
+          <div style="font-size: 0.7rem; color: var(--ghost);" id="tasa-fecha">—</div>
+        </div>
+        <button class="btn btn-sm" onclick="forzarActualizarTasa()"><i class="fa-solid fa-rotate"></i> Recargar</button>
+      </div>
+
       <section class="card">
-        <h2 class="card-title"><i class="fa-solid fa-gem"></i> Gros de Geo</h2>
+        <h2 class="card-title"><i class="fa-solid fa-gem"></i> Gros de Geo (Resumen)</h2>
         <div class="resumen-grid">
           <div class="stat">
             <div class="stat-label">Bancos (Bs.)</div>
             <div class="stat-value positivo" id="saldo-bs">—</div>
+            <div class="stat-sub" id="eq-bs-usd">Equiv: $0.00</div>
           </div>
           <div class="stat">
             <div class="stat-label">Binance (USDT)</div>
             <div class="stat-value usdt" id="saldo-usdt">—</div>
+            <div class="stat-sub" id="eq-usdt-bs">Equiv: Bs. 0.00</div>
           </div>
           <div class="stat">
             <div class="stat-label">Deudas (Cashea)</div>
             <div class="stat-value negativo" id="deudas-usd">—</div>
+            <div class="stat-sub" id="eq-deudas-bs">Equiv: Bs. 0.00</div>
           </div>
         </div>
       </section>
 
       <section class="card">
         <h2 class="card-title"><i class="fa-solid fa-bolt"></i> Acciones Rápidas</h2>
-        <p style="color:var(--ghost); font-size: 0.85rem; margin-bottom: 1rem;">Usa las pestañas superiores para registrar nuevos gastos, ingresos o abonar a tus deudas de manera cómoda desde el celular.</p>
+        <p style="color:var(--ghost); font-size: 0.85rem; margin-bottom: 1rem;">Usa las pestañas superiores para registrar nuevos movimientos o deudas.</p>
         <button class="btn" onclick="cambiarTab('movimientos', document.querySelectorAll('.tab-btn')[1])"><i class="fa-solid fa-plus"></i> Ir a Registrar Movimiento</button>
       </section>
     </div>
@@ -324,13 +371,13 @@
             </select>
           </div>
           <div>
-            <button type="submit" class="btn" id="btn-guardar"><i class="fa-solid fa-plus"></i> Guardar Movimiento</button>
+            <button type="submit" class="btn"><i class="fa-solid fa-plus"></i> Guardar Movimiento</button>
           </div>
         </form>
       </section>
 
       <section class="card">
-        <h2 class="card-title"><i class="fa-solid fa-book"></i> Historial</h2>
+        <h2 class="card-title"><i class="fa-solid fa-book"></i> Historial de Movimientos</h2>
         <div id="tabla-container">
           <p style="color:var(--ghost); text-align:center;">Cargando...</p>
         </div>
@@ -365,17 +412,16 @@
       </section>
     </div>
 
-    <!-- PESTAÑA 4: TASA BCV -->
-    <div id="tab-tasa" class="tab-content">
-      <section class="card">
-        <h2 class="card-title"><i class="fa-solid fa-coins"></i> Tasa Oficial BCV</h2>
-        <div class="tasa-card" style="margin-bottom: 1rem;">
-          <div class="stat-label">Tasa Actual</div>
-          <div class="tasa-val" id="tasa-valor">—</div>
-          <div style="font-size: 0.8rem; color: var(--ghost); margin-top: 0.3rem;" id="tasa-fecha">Cargando...</div>
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div id="custom-modal" class="modal-overlay">
+      <div class="modal-card">
+        <h3 id="modal-title"><i class="fa-solid fa-circle-question"></i> Confirmar Acción</h3>
+        <p id="modal-text">¿Desea registrar esta operación?</p>
+        <div class="modal-buttons">
+          <button class="btn btn-danger" onclick="cerrarModal(false)">Cancelar</button>
+          <button class="btn" id="modal-btn-confirmar">Sí, Registrar</button>
         </div>
-        <button type="button" class="btn" onclick="forzarActualizarTasa()"><i class="fa-solid fa-rotate"></i> Recargar Tasa</button>
-      </section>
+      </div>
     </div>
 
     <footer>
@@ -387,6 +433,9 @@
     const API_URL = "https://finanzas-qurk.onrender.com";
 
     let tasaActual = 0;
+    let balanceCache = null;
+    let datosPendientesAccion = null;
+
     const $ = (s) => document.querySelector(s);
     const fmtBs = (n) => Number(n).toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const fmtUsd = (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -398,7 +447,6 @@
       if (tipo === "ok") setTimeout(() => { el.className = "msg"; el.textContent = ""; }, 3500);
     }
 
-    // Control de Pestañas Móviles
     function cambiarTab(tabId, btnElement) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -407,6 +455,23 @@
       btnElement.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    function mostrarModal(titulo, texto, callback) {
+      $("#modal-title").innerHTML = `<i class="fa-solid fa-circle-question"></i> ${titulo}`;
+      $("#modal-text").textContent = texto;
+      $("#custom-modal").classList.add('active');
+      datosPendientesAccion = callback;
+    }
+
+    function cerrarModal(confirmado) {
+      $("#custom-modal").classList.remove('active');
+      if (confirmado && typeof datosPendientesAccion === "function") {
+        datosPendientesAccion();
+      }
+      datosPendientesAccion = null;
+    }
+
+    $("#modal-btn-confirmar").onclick = () => cerrarModal(true);
 
     async function api(path, opts = {}) {
       try {
@@ -428,6 +493,7 @@
         $("#tasa-valor").textContent = `${fmtBs(tasaActual)} Bs/$`;
         $("#tasa-fecha").textContent = `Actualizada: ${d.fecha} · ${d.fuente}`;
         if ($("#tasa_cambio")) $("#tasa_cambio").placeholder = tasaActual.toString();
+        if (balanceCache) actualizarEquivalenciasResumen(balanceCache);
       } catch (e) {
         $("#tasa-valor").textContent = "—";
       }
@@ -439,12 +505,25 @@
       msg("¡Tasa al día!", "ok");
     }
 
+    function actualizarEquivalenciasResumen(b) {
+      const tasa = tasaActual || 1.0;
+      // Bancos Bs
+      $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
+      $("#eq-bs-usd").textContent = `Equiv: $ ${fmtUsd(b.saldo_bs / tasa)}`;
+
+      // Binance USDT (asumimos USDT equivale a USD, calculamos su equivalente en Bs)
+      $("#saldo-usdt").textContent = `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
+      $("#eq-usdt-bs").textContent = `Equiv: Bs. ${fmtBs(b.saldo_usdt_estimado * tasa)}`;
+
+      // Deudas USD
+      $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
+      $("#eq-deudas-bs").textContent = `Equiv: Bs. ${fmtBs(b.total_deudas_usd * tasa)}`;
+    }
+
     async function cargarBalance() {
       try {
-        const b = await api("/balance");
-        $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
-        $("#saldo-usdt").textContent = `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
-        $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
+        balanceCache = await api("/balance");
+        actualizarEquivalenciasResumen(balanceCache);
       } catch (e) {
         msg(e.message, "error");
       }
@@ -452,6 +531,7 @@
 
     async function cargarDeudas() {
       const cont = $("#lista-deudas");
+      const tasa = tasaActual || 1.0;
       try {
         const deudas = await api("/deudas");
         if (!deudas.length) {
@@ -459,12 +539,13 @@
           return;
         }
 
-        let html = '<div class="table-wrap"><table><thead><tr><th>Acreedor</th><th>Total</th><th>Pagado</th><th>Acción</th></tr></thead><tbody>';
+        let html = '<div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Total ($ / Bs)</th><th>Pagado</th><th>Acción</th></tr></thead><tbody>';
         for (const d of deudas) {
+          const totalBs = d.monto_total_usd * tasa;
           html += `
             <tr>
               <td>${d.acreedor}</td>
-              <td>$${fmtUsd(d.monto_total_usd)}</td>
+              <td>$${fmtUsd(d.monto_total_usd)}<br><small style="color:var(--ghost);">Bs. ${fmtBs(totalBs)}</small></td>
               <td>$${fmtUsd(d.monto_pagado_usd)}</td>
               <td>
                 ${!d.completado ? `<button class="btn btn-sm" onclick="abonar('${d.id}')">Abonar</button>` : '<span style="color:var(--success)">Listo</span>'}
@@ -482,15 +563,18 @@
     async function abonar(id) {
       const m = prompt("¿Cuánto deseas abonar en USD ($)?");
       if (!m || isNaN(m)) return;
-      try {
-        await api(`/deudas/${id}/abonar`, { method: "POST", body: JSON.stringify({ monto_usd: parseFloat(m) }) });
-        msg("Abono registrado", "ok");
-        cargarDeudas(); cargarBalance();
-      } catch (e) { msg(e.message, "error"); }
+      mostrarModal("Confirmar Abono", `¿Desea registrar un abono de $${fmtUsd(m)} a la deuda?`, async () => {
+        try {
+          await api(`/deudas/${id}/abonar`, { method: "POST", body: JSON.stringify({ monto_usd: parseFloat(m) }) });
+          msg("Abono registrado", "ok");
+          cargarDeudas(); cargarBalance();
+        } catch (e) { msg(e.message, "error"); }
+      });
     }
 
     async function cargarHistorial() {
       const cont = $("#tabla-container");
+      const tasa = tasaActual || 1.0;
       try {
         const lista = await api("/transacciones");
         if (!lista.length) {
@@ -498,13 +582,27 @@
           return;
         }
 
-        let html = '<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Monto</th><th>Desc.</th><th></th></tr></thead><tbody>';
+        let html = '<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Monto Original</th><th>Equivalencia ($ / Bs)</th><th>Desc.</th><th></th></tr></thead><tbody>';
         for (const t of lista) {
           const cl = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
+          const mOrig = t.monto_original;
+          const mon = t.moneda;
+          
+          let eqUsd = 0;
+          let eqBs = 0;
+          if (mon === "BS") {
+            eqBs = mOrig;
+            eqUsd = mOrig / (t.tasa_cambio || tasa);
+          } else {
+            eqUsd = mOrig;
+            eqBs = mOrig * (t.tasa_cambio || tasa);
+          }
+
           html += `
             <tr>
               <td class="${cl}">${t.tipo}</td>
-              <td>${t.monto_original} ${t.moneda}</td>
+              <td>${fmtUsd(mOrig)} ${mon}</td>
+              <td>$${fmtUsd(eqUsd)}<br><small style="color:var(--ghost);">Bs. ${fmtBs(eqBs)}</small></td>
               <td>${t.descripcion}</td>
               <td><button class="btn btn-sm btn-danger" onclick="eliminar('${t.id}')"><i class="fa-solid fa-trash"></i></button></td>
             </tr>
@@ -516,7 +614,7 @@
     }
 
     async function eliminar(id) {
-      if (!confirm("¿Eliminar?")) return;
+      if (!confirm("¿Eliminar este movimiento?")) return;
       try {
         await api(`/transacciones/${id}`, { method: "DELETE" });
         msg("Eliminado", "ok");
@@ -524,46 +622,58 @@
       } catch (e) { msg(e.message, "error"); }
     }
 
-    $("#form-transaccion").addEventListener("submit", async (e) => {
+    $("#form-transaccion").addEventListener("submit", (e) => {
       e.preventDefault();
+      const tipo = $("#tipo").value;
       const orig = parseFloat($("#monto_orig").value);
       const mon = $("#moneda").value;
       let tc = parseFloat($("#tasa_cambio").value) || tasaActual || 1.0;
       let bs = mon === "BS" ? orig : orig * tc;
+      const desc = $("#descripcion").value;
 
-      const body = {
-        tipo: $("#tipo").value,
-        moneda: mon,
-        monto_original: orig,
-        tasa_cambio: tc,
-        monto_bs: bs,
-        descripcion: $("#descripcion").value,
-        categoria: $("#categoria").value
-      };
+      const textoModal = `¿Desea registrar que tuvo un ${tipo} de ${orig} ${mon} (${tipo === 'ingreso' ? 'Ingreso' : 'Gasto'})?`;
 
-      try {
-        await api("/transacciones", { method: "POST", body: JSON.stringify(body) });
-        msg("Registrado con éxito", "ok");
-        e.target.reset();
-        cargarHistorial(); cargarBalance();
-        cambiarTab('resumen', document.querySelectorAll('.tab-btn')[0]); // Volver al resumen
-      } catch (err) { msg(err.message, "error"); }
+      mostrarModal("Confirmar Movimiento", textoModal, async () => {
+        const body = {
+          tipo: tipo,
+          moneda: mon,
+          monto_original: orig,
+          tasa_cambio: tc,
+          monto_bs: bs,
+          descripcion: desc,
+          categoria: $("#categoria").value
+        };
+
+        try {
+          await api("/transacciones", { method: "POST", body: JSON.stringify(body) });
+          msg("Registrado con éxito", "ok");
+          e.target.reset();
+          cargarHistorial(); cargarBalance();
+          cambiarTab('resumen', document.querySelectorAll('.tab-btn')[0]);
+        } catch (err) { msg(err.message, "error"); }
+      });
     });
 
-    $("#form-deuda").addEventListener("submit", async (e) => {
+    $("#form-deuda").addEventListener("submit", (e) => {
       e.preventDefault();
-      const body = {
-        acreedor: $("#d-acreedor").value,
-        monto_total_usd: parseFloat($("#d-monto").value),
-        fecha_limite: $("#d-fecha").value
-      };
+      const acreedor = $("#d-acreedor").value;
+      const montoTotal = parseFloat($("#d-monto").value);
+      const fecha = $("#d-fecha").value;
 
-      try {
-        await api("/deudas", { method: "POST", body: JSON.stringify(body) });
-        msg("Deuda agregada", "ok");
-        e.target.reset();
-        cargarDeudas(); cargarBalance();
-      } catch (err) { msg(err.message, "error"); }
+      mostrarModal("Confirmar Deuda (Cashea)", `¿Desea registrar una deuda de $${fmtUsd(montoTotal)} con ${acreedor}?`, async () => {
+        const body = {
+          acreedor: acreedor,
+          monto_total_usd: montoTotal,
+          fecha_limite: fecha
+        };
+
+        try {
+          await api("/deudas", { method: "POST", body: JSON.stringify(body) });
+          msg("Deuda agregada", "ok");
+          e.target.reset();
+          cargarDeudas(); cargarBalance();
+        } catch (err) { msg(err.message, "error"); }
+      });
     });
 
     async function init() {
