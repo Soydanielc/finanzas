@@ -1,5 +1,5 @@
 """
-Backend de Finanzas Personales — Finanzas del Caballero (v2.0)
+Backend de Finanzas Personales — Finanzas del Caballero (v2.1)
 FastAPI + Supabase + Tasa BCV + Multimoneda (BS/USD/USDT) + Módulo de Deudas
 """
 
@@ -29,7 +29,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 app = FastAPI(
     title="Finanzas del Caballero API",
     description="API personal de ingresos/gastos, deudas (Cashea) y tasas de cambio",
-    version="2.0.0",
+    version="2.1.0",
 )
 
 app.add_middleware(
@@ -128,7 +128,7 @@ async def consultar_pydolarve(client: httpx.AsyncClient) -> TasaBCV:
 # ---------------------------------------------------------------------------
 @app.get("/")
 async def root():
-    return {"mensaje": "API Finanzas del Caballero v2.0 Activa", "docs": "/docs"}
+    return {"mensaje": "API Finanzas del Caballero v2.1 Activa", "docs": "/docs"}
 
 
 @app.get("/tasa-bcv", response_model=TasaBCV)
@@ -162,7 +162,6 @@ async def obtener_tasa_bcv():
 @app.get("/balance", response_model=BalanceResponse)
 async def obtener_balance():
     try:
-        # 1. Movimientos
         res_trans = supabase.table("transacciones").select("*").execute()
         total_ingresos_bs = 0.0
         total_gastos_bs = 0.0
@@ -182,7 +181,6 @@ async def obtener_balance():
                 if moneda == "USDT":
                     usdt_balance -= m_orig
 
-        # 2. Deudas pendientes
         res_deudas = (
             supabase.table("deudas").select("*").eq("completado", False).execute()
         )
