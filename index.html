@@ -58,7 +58,6 @@
 
     header p { color: var(--ghost); font-size: 0.85rem; }
 
-    /* Barra de Navegación Móvil por Pestañas */
     .nav-tabs {
       display: flex;
       background: rgba(0, 0, 0, 0.4);
@@ -97,7 +96,6 @@
       box-shadow: 0 0 8px rgba(201, 168, 76, 0.2);
     }
 
-    /* Secciones Intercambiables */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
@@ -129,7 +127,6 @@
       gap: 0.5rem;
     }
 
-    /* Grid de Balance */
     .resumen-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -162,7 +159,6 @@
     .stat-value.usdt { color: var(--usdt); }
     .stat-value.negativo { color: #e8b4b4; }
 
-    /* Formularios */
     .form-grid { display: grid; gap: 0.9rem; }
     label { display: block; font-size: 0.82rem; color: var(--ghost); margin-bottom: 0.3rem; }
 
@@ -180,6 +176,12 @@
       outline: none;
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    }
+
+    .input-group-calc {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
 
     .btn {
@@ -204,7 +206,6 @@
     .btn-sm { padding: 0.4rem 0.7rem; min-height: 36px; font-size: 0.8rem; width: auto; }
     .btn-danger { border-color: var(--danger); color: #e8b4b4; background: rgba(139, 58, 58, 0.2); }
 
-    /* Tablas */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     th { text-align: left; padding: 0.6rem 0.4rem; color: var(--ghost); border-bottom: 1px solid var(--border); }
@@ -230,7 +231,7 @@
     }
     .tasa-banner-val { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); font-weight: 600; }
 
-    /* Modal Personalizado */
+    /* Modal de Confirmación y Calculadora */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -258,6 +259,10 @@
     .modal-card p { font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--text); }
     .modal-buttons { display: flex; gap: 0.8rem; }
 
+    /* Estilos calculadora modal interna */
+    .calc-box { text-align: left; margin-bottom: 1rem; }
+    .calc-result { background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 6px; font-family: 'Cinzel', serif; color: var(--gold); margin-top: 0.5rem; text-align: center; }
+
     footer { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--ghost); font-size: 0.75rem; }
   </style>
 </head>
@@ -270,7 +275,6 @@
 
     <div id="global-msg" class="msg"></div>
 
-    <!-- NAVEGACIÓN MÓVIL (PESTAÑAS) -->
     <nav class="nav-tabs">
       <button class="tab-btn active" onclick="cambiarTab('resumen', this)">
         <i class="fa-solid fa-gem"></i>
@@ -286,9 +290,8 @@
       </button>
     </nav>
 
-    <!-- PESTAÑA 1: RESUMEN Y BALANCE -->
+    <!-- PESTAÑA 1: RESUMEN -->
     <div id="tab-resumen" class="tab-content active">
-      <!-- Banner Tasa BCV Integrada -->
       <div class="tasa-banner">
         <div>
           <div style="font-size: 0.7rem; color: var(--ghost); text-transform: uppercase;">Tasa BCV Oficial</div>
@@ -326,7 +329,7 @@
       </section>
     </div>
 
-    <!-- PESTAÑA 2: MOVIMIENTOS (REGISTRO E HISTORIAL) -->
+    <!-- PESTAÑA 2: MOVIMIENTOS -->
     <div id="tab-movimientos" class="tab-content">
       <section class="card">
         <h2 class="card-title"><i class="fa-solid fa-scroll"></i> Nuevo Movimiento</h2>
@@ -348,7 +351,10 @@
           </div>
           <div>
             <label for="monto_orig">Monto</label>
-            <input type="number" id="monto_orig" step="0.01" min="0.01" placeholder="0.00" required />
+            <div class="input-group-calc">
+              <input type="number" id="monto_orig" step="0.01" min="0.01" placeholder="0.00" required />
+              <button type="button" class="btn btn-sm" onclick="abrirCalculadora()" title="Calculadora Bs / $"><i class="fa-solid fa-calculator"></i></button>
+            </div>
           </div>
           <div>
             <label for="tasa_cambio">Tasa (Bs/$)</label>
@@ -424,6 +430,26 @@
       </div>
     </div>
 
+    <!-- MODAL CALCULADORA BS A $ -->
+    <div id="calc-modal" class="modal-overlay">
+      <div class="modal-card">
+        <h3><i class="fa-solid fa-calculator"></i> Calculadora BCV</h3>
+        <div class="calc-box">
+          <label>Monto en Bolívares (Bs.)</label>
+          <input type="number" id="calc-input-bs" step="0.01" placeholder="0.00" oninput="calcularDesdeBs()" />
+        </div>
+        <div class="calc-box">
+          <label>Monto en Dólares ($)</label>
+          <input type="number" id="calc-input-usd" step="0.01" placeholder="0.00" oninput="calcularDesdeUsd()" />
+        </div>
+        <div class="calc-result" id="calc-tasa-ref">Tasa actual: —</div>
+        <div style="margin-top: 1rem;">
+          <button class="btn" onclick="usarMontoCalculadora()">Usar este monto</button>
+          <button class="btn btn-danger" style="margin-top: 0.5rem;" onclick="$('#calc-modal').classList.remove('active')">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
     <footer>
       <p>Proyecto personal de control de finanzas. No está afiliado a ningún banco ni entidad financiera.</p>
     </footer>
@@ -473,6 +499,43 @@
 
     $("#modal-btn-confirmar").onclick = () => cerrarModal(true);
 
+    // Funciones de la Calculadora Modal
+    function abrirCalculadora() {
+      $("#calc-input-bs").value = "";
+      $("#calc-input-usd").value = "";
+      $("#calc-tasa-ref").textContent = `Tasa actual: ${fmtBs(tasaActual)} Bs/$`;
+      $("#calc-modal").classList.add('active');
+    }
+
+    function calcularDesdeBs() {
+      const bs = parseFloat($("#calc-input-bs").value) || 0;
+      if (tasaActual > 0) {
+        $("#calc-input-usd").value = (bs / tasaActual).toFixed(2);
+      }
+    }
+
+    function calcularDesdeUsd() {
+      const usd = parseFloat($("#calc-input-usd").value) || 0;
+      if (tasaActual > 0) {
+        $("#calc-input-bs").value = (usd * tasaActual).toFixed(2);
+      }
+    }
+
+    function usarMontoCalculadora() {
+      const bs = $("#calc-input-bs").value;
+      if (bs && parseFloat(bs) > 0) {
+        $("#moneda").value = "BS";
+        $("#monto_orig").value = bs;
+      } else {
+        const usd = $("#calc-input-usd").value;
+        if (usd && parseFloat(usd) > 0) {
+          $("#moneda").value = "USD";
+          $("#monto_orig").value = usd;
+        }
+      }
+      $("#calc-modal").classList.remove('active');
+    }
+
     async function api(path, opts = {}) {
       try {
         const res = await fetch(`${API_URL}${path}`, {
@@ -507,15 +570,12 @@
 
     function actualizarEquivalenciasResumen(b) {
       const tasa = tasaActual || 1.0;
-      // Bancos Bs
       $("#saldo-bs").textContent = `${fmtBs(b.saldo_bs)} Bs.`;
       $("#eq-bs-usd").textContent = `Equiv: $ ${fmtUsd(b.saldo_bs / tasa)}`;
 
-      // Binance USDT (asumimos USDT equivale a USD, calculamos su equivalente en Bs)
       $("#saldo-usdt").textContent = `$ ${fmtUsd(b.saldo_usdt_estimado)} USDT`;
       $("#eq-usdt-bs").textContent = `Equiv: Bs. ${fmtBs(b.saldo_usdt_estimado * tasa)}`;
 
-      // Deudas USD
       $("#deudas-usd").textContent = `$ ${fmtUsd(b.total_deudas_usd)}`;
       $("#eq-deudas-bs").textContent = `Equiv: Bs. ${fmtBs(b.total_deudas_usd * tasa)}`;
     }
@@ -539,13 +599,21 @@
           return;
         }
 
-        let html = '<div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Total ($ / Bs)</th><th>Pagado</th><th>Acción</th></tr></thead><tbody>';
+        let html = '<div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Total ($ / Bs)</th><th>Fecha Límite</th><th>Pagado</th><th>Acción</th></tr></thead><tbody>';
         for (const d of deudas) {
           const totalBs = d.monto_total_usd * tasa;
+          // Formato fecha límite legible
+          let fechaFormateada = d.fecha_limite || "—";
+          try {
+            const [y, m, day] = d.fecha_limite.split('-');
+            fechaFormateada = `${day}/${m}/${y}`;
+          } catch(err){}
+
           html += `
             <tr>
               <td>${d.acreedor}</td>
               <td>$${fmtUsd(d.monto_total_usd)}<br><small style="color:var(--ghost);">Bs. ${fmtBs(totalBs)}</small></td>
+              <td style="font-size:0.78rem; color: var(--gold);">${fechaFormateada}</td>
               <td>$${fmtUsd(d.monto_pagado_usd)}</td>
               <td>
                 ${!d.completado ? `<button class="btn btn-sm" onclick="abonar('${d.id}')">Abonar</button>` : '<span style="color:var(--success)">Listo</span>'}
@@ -582,7 +650,7 @@
           return;
         }
 
-        let html = '<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Monto Original</th><th>Equivalencia ($ / Bs)</th><th>Desc.</th><th></th></tr></thead><tbody>';
+        let html = '<div class="table-wrap"><table><thead><tr><th>Tipo / Fecha</th><th>Monto Original</th><th>Equiv. ($ / Bs)</th><th>Desc.</th><th></th></tr></thead><tbody>';
         for (const t of lista) {
           const cl = t.tipo === "ingreso" ? "tipo-ingreso" : "tipo-gasto";
           const mOrig = t.monto_original;
@@ -598,9 +666,24 @@
             eqBs = mOrig * (t.tasa_cambio || tasa);
           }
 
+          // Formatear fecha legible ej: 17/10/2026 05:08 PM
+          let fechaAmigable = t.fecha_creacion;
+          try {
+            const fechaObj = new Date(t.fecha_creacion);
+            if (!isNaN(fechaObj)) {
+              fechaAmigable = fechaObj.toLocaleString("es-VE", {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: true
+              });
+            }
+          } catch(e){}
+
           html += `
             <tr>
-              <td class="${cl}">${t.tipo}</td>
+              <td>
+                <span class="${cl}" style="font-weight:600; text-transform:uppercase;">${t.tipo}</span><br>
+                <small style="color:var(--ghost); font-size:0.7rem;">${fechaAmigable}</small>
+              </td>
               <td>${fmtUsd(mOrig)} ${mon}</td>
               <td>$${fmtUsd(eqUsd)}<br><small style="color:var(--ghost);">Bs. ${fmtBs(eqBs)}</small></td>
               <td>${t.descripcion}</td>
